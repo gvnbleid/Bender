@@ -94,5 +94,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Bender.ClassLibrary\Bender.ClassLibrary.csproj">
+      <Project>{65E3F8F4-C99E-4BCA-84F9-0AC7BE0E083D}</Project>
+      <Name>Bender.ClassLibrary</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

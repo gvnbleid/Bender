@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Bender.ClassLibrary;
 
 namespace Bender.GUI
 {
@@ -23,6 +24,8 @@ namespace Bender.GUI
         public MainWindow()
         {
             InitializeComponent();
+
+            Torus torus = new Torus(10, 2, 0.5f, 0.5f); 
         }
     }
 }

@@ -5,8 +5,33 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Bender.GUI"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800"
+        WindowState="Maximized">
     <Grid>
-        
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="350"/>
+        </Grid.ColumnDefinitions>
+
+        <Menu Grid.ColumnSpan="2">
+            <MenuItem Header="File">
+                <MenuItem Header="New"/>
+                <MenuItem Header="Save"/>
+                <MenuItem Header="Close"/>
+            </MenuItem>
+        </Menu>
+
+        <Canvas Grid.Row="1" Grid.RowSpan="2" Grid.Column="0" Background="Black"/>
+
+        <DockPanel Grid.Column="1" Grid.Row="1" Background="LightGray"></DockPanel>
+
+        <DockPanel Grid.Column="1" Grid.Row="2" Background="DarkGray"></DockPanel>
     </Grid>
 </Window>
