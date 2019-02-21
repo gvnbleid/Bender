@@ -5,6 +5,7 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using MathNet.Numerics.LinearAlgebra.Single;
 
 namespace Bender.ClassLibrary
 {
@@ -21,6 +22,11 @@ namespace Bender.ClassLibrary
 
         public void Draw()
         {
+            Matrix4x4 perspectiveMatrix = new Matrix4x4(
+                1, 0, 0, 0,
+                0, 1, 0, 0,
+                0, 0, 0, 0,
+                0, 0, 0.1f, 1);
             throw new NotImplementedException();
         }
     }

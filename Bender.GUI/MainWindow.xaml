@@ -28,7 +28,7 @@
             </MenuItem>
         </Menu>
 
-        <Canvas Grid.Row="1" Grid.RowSpan="2" Grid.Column="0" Background="Black"/>
+        <Image Name="SceneImage" Grid.Row="1" Grid.RowSpan="2" Grid.Column="0" />
 
         <DockPanel Grid.Column="1" Grid.Row="1" Background="LightGray"></DockPanel>
 
