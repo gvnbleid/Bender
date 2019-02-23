@@ -4,12 +4,13 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using MathNet.Numerics.LinearAlgebra.Single;
 
 namespace Bender.ClassLibrary
 {
     public class Torus : IGeometry
     {
-        public Geometry Geometry { get; private set; }
+        public Geometry Geometry { get; }
 
         private float _bigRadius;
         private float _smallRadius;
@@ -29,7 +30,7 @@ namespace Bender.ClassLibrary
             _alphaDensity = alphaDensity;
             _betaDensity = betaDensity;
 
-            List<Vector4> vertices = new List<Vector4>();
+            List<Vector> vertices = new List<Vector>();
             List<Edge> edges = new List<Edge>();
             int i, j;
             i = j = 0;
@@ -39,10 +40,10 @@ namespace Bender.ClassLibrary
                 for (float beta = 0.0f; beta <= (float) MathNet.Numerics.Trig.DegreeToRadian(360); beta += (float) MathNet.Numerics.Trig.DegreeToRadian(5))
                 {
                     float x = (float) Math.Cos(alpha) * (_bigRadius + _smallRadius * (float) Math.Cos(beta));
-                    float y = (float) Math.Sin(alpha) * (_bigRadius + _smallRadius * (float) Math.Cos(beta));
-                    float z = (float) Math.Sin(beta) * _smallRadius;
+                    float z = (float) Math.Sin(alpha) * (_bigRadius + _smallRadius * (float) Math.Cos(beta));
+                    float y = (float) Math.Sin(beta) * _smallRadius;
 
-                    vertices.Add(new Vector4(x, y, z, 1));
+                    vertices.Add(new DenseVector(new []{x, y, z, 1f}));
 
                     if(j > 0) edges.Add(new Edge(i*72 + j - 1, i*72 + j));
                     if(i > 0) edges.Add(new Edge(i*72 + j, (i-1)*72 + j));
@@ -55,10 +56,6 @@ namespace Bender.ClassLibrary
             }
 
             Geometry = new Geometry(vertices.ToArray(), edges.ToArray());
-        }
-        public void Draw()
-        {
-            Geometry.Draw();
         }
     }
 }

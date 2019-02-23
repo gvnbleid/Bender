@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +16,7 @@ using System.Windows.Shapes;
 using Bender.ClassLibrary;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Single;
+using Vector = System.Windows.Vector;
 
 namespace Bender.GUI
 {
@@ -23,34 +25,52 @@ namespace Bender.GUI
     /// </summary>
     public partial class MainWindow : Window
     {
-        private static WriteableBitmap writeableBitmap;
+
         public MainWindow()
         {
             InitializeComponent();
 
-            writeableBitmap = new WriteableBitmap(
-                (int)SceneImage.ActualWidth,
-                (int)SceneImage.ActualHeight,
-                96,
-                96,
-                PixelFormats.Bgra32,
-                null);
+            Loaded += OnLoaded;
 
-            SceneImage.Source = writeableBitmap;
+        }
 
-            SceneImage.Stretch = Stretch.None;
-            SceneImage.HorizontalAlignment = HorizontalAlignment.Left;
-            SceneImage.VerticalAlignment = VerticalAlignment.Top;
+        private void OnLoaded(object sender, RoutedEventArgs e)
+        {
+            //Torus torus = new Torus(2f, 0.5f, 0.5f, 0.5f);
+            Cube cube = new Cube(1f);
+            Serializer.WriteVerticesToFile("torusModel.txt", cube.Geometry.Vertices);
 
-            Torus torus = new Torus(10, 2, 0.5f, 0.5f);
             Camera camera = new Camera(
-                new DenseVector(new[] {0f, 0f, -20f}),
-                new DenseVector(new[] {0f, 0f, 0f}),
+                new DenseVector(new[] {0f, 0f, 1f, 0f}),
+                new DenseVector(new[] {0f, 0f, 0f, 0f}),
                 0.1f,
-                30f,
-                (float) MathNet.Numerics.Trig.DegreeToRadian(120));
+                5f,
+                (float) MathNet.Numerics.Trig.DegreeToRadian(120),
+                (float) SceneCanvas.ActualWidth,
+                (float) SceneCanvas.ActualHeight);
 
-            camera.Draw(torus, writeableBitmap);
+            camera.GeometryToRasterSpace(cube, out Point[] verticesToDraw);
+
+            DrawOnCanvas(verticesToDraw, cube.Geometry.Edges);
+        }
+
+        private void DrawOnCanvas(Point[] vertices, Edge[] topology)
+        {
+            foreach (Edge edge in topology)
+            {
+                Line line = new Line();
+
+                line.X1 = vertices[edge.Beginning].X;
+                line.Y1 = vertices[edge.Beginning].Y;
+
+                line.X2 = vertices[edge.End].X;
+                line.Y2 = vertices[edge.End].Y;
+
+                line.Stroke = Brushes.Beige;
+                line.StrokeThickness = 0.1;
+
+                SceneCanvas.Children.Add(line);
+            }
         }
     }
 }

@@ -4,7 +4,10 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using Bender.ClassLibrary;
+using MathNet.Numerics.LinearAlgebra;
+using MathNet.Numerics.LinearAlgebra.Single;
 using Xunit;
 
 namespace Bender.Tests
@@ -12,17 +15,14 @@ namespace Bender.Tests
     public class Class1
     {
         [Fact]
-        public void MathHelpers_MultiplyMatrixByVector_IdentityByOnes()
+        public void Camera_WorldToCameraSpace_OnePointCheck()
         {
-            Matrix4x4 m = new Matrix4x4(
-                1, 0, 0, 0,
-                0, 1, 0, 0,
-                0, 0, 1, 0,
-                0, 0, 0, 1);
+            Camera c = new Camera(new DenseVector(new []{0f, 0f, 1f, 0f}), new DenseVector(new []{0f, 0f, 0f, 0f}), 0.1f, 10f, (float) Math.PI, 500, 500);
+            Cube singlePoint = new Cube(2f);
 
-            Vector4 v = new Vector4(3, 5, 7, 9);
+            var points = c.WorldToCameraSpace(singlePoint.Geometry.Vertices);
 
-            Assert.Equal(v, MathHelpers.MultiplyMatrixByVector(m, v));
+            Assert.Equal(new DenseVector(new float[]{-1, -1, -2, 1}), points[0]);
         }
     }
 }

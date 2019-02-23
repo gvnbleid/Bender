@@ -10,6 +10,5 @@ namespace Bender.ClassLibrary
     {
         Geometry Geometry { get; }
 
-        void Draw();
     }
 }

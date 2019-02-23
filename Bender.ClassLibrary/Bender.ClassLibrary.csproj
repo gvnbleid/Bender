@@ -49,12 +49,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Camera.cs" />
+    <Compile Include="Cube.cs" />
     <Compile Include="Edge.cs" />
     <Compile Include="Geometry.cs" />
     <Compile Include="IGeometry.cs" />
     <Compile Include="MathHelpers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScreenStatus.cs" />
+    <Compile Include="Serializer.cs" />
     <Compile Include="Torus.cs" />
   </ItemGroup>
   <ItemGroup>
