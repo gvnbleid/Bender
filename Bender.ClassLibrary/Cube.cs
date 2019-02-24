@@ -8,11 +8,11 @@ using MathNet.Numerics.LinearAlgebra.Single;
 
 namespace Bender.ClassLibrary
 {
-    public class Cube : IGeometry
+    public class Cube : Geometry
     {
-        public Geometry Geometry { get; }
 
-        public Cube(float size)
+        public Cube(string name, float size) : base(name, new DenseVector(new[] {0f, 0f, 0f, 0f}),
+            new DenseVector(new[] {0f, 0f, 0f, 0f}), new DenseVector(new[] {size, size, size, 0f}))
         {
             List<Vector<float>> vertices = new List<Vector<float>>();
             List<Edge> edges = new List<Edge>();
@@ -21,10 +21,10 @@ namespace Bender.ClassLibrary
             vertices.Add(new DenseVector(new[] {size / 2, -size / 2, -size / 2, 1f}));
             vertices.Add(new DenseVector(new[] {size / 2, size / 2, -size / 2, 1f}));
             vertices.Add(new DenseVector(new[] {-size / 2, size / 2, -size / 2, 1f}));
-            vertices.Add(new DenseVector(new[] { -size / 2, -size / 2, size / 2, 1f}));
-            vertices.Add(new DenseVector(new[] { size / 2, -size / 2, size / 2, 1f }));
-            vertices.Add(new DenseVector(new[] { size / 2, size / 2, size / 2, 1f }));
-            vertices.Add(new DenseVector(new[] { -size / 2, size / 2, size / 2, 1f }));
+            vertices.Add(new DenseVector(new[] {-size / 2, -size / 2, size / 2, 1f}));
+            vertices.Add(new DenseVector(new[] {size / 2, -size / 2, size / 2, 1f}));
+            vertices.Add(new DenseVector(new[] {size / 2, size / 2, size / 2, 1f}));
+            vertices.Add(new DenseVector(new[] {-size / 2, size / 2, size / 2, 1f}));
 
             edges.Add(new Edge(0, 1));
             edges.Add(new Edge(1, 2));
@@ -39,7 +39,8 @@ namespace Bender.ClassLibrary
             edges.Add(new Edge(2, 6));
             edges.Add(new Edge(3, 7));
 
-            Geometry = new Geometry(vertices.ToArray(), edges.ToArray());
+            Vertices = vertices.ToArray();
+            Edges = edges.ToArray();
         }
     }
 }

@@ -12,15 +12,30 @@ using Vector = System.Windows.Vector;
 
 namespace Bender.ClassLibrary
 {
-    public class Geometry
+    public abstract class Geometry
     {
-        public Vector<float>[] Vertices { get; }
-        public Edge[] Edges { get; }
+        public Vector<float> PositionVector { get; protected set; }
+        public Vector<float> RotationVector { get; protected set; }
+        public Vector<float> ScaleVector { get; protected set; }
+        public Vector<float>[] Vertices { get; protected set; }
+        public Edge[] Edges { get; protected set; }
 
-        public Geometry(Vector<float>[] vertices, Edge[] edges)
+        public string Name { get; protected set; }
+
+        protected Geometry(string name, Vector<float> positionVector, Vector<float> rotationVector, Vector<float> scaleVector, Vector<float>[] vertices = null, Edge[] edges = null)
         {
+            Name = name;
             Vertices = vertices;
             Edges = edges;
+
+            PositionVector = positionVector;
+            RotationVector = rotationVector;
+            ScaleVector = scaleVector;
+        }
+
+        public override string ToString()
+        {
+            return Name;
         }
 
         public void Draw(Matrix<float> viewMatrix, Matrix<float> projectionMatrix, out Vector<float>[] verticesInScreenSpace, out IEnumerable<Edge> topology)
@@ -35,6 +50,13 @@ namespace Bender.ClassLibrary
 
             verticesInScreenSpace = Vertices.Select(x => (projectionMatrix * viewMatrix * x).Divide(x[2])).ToArray();
             topology = Edges;
+        }
+
+        public virtual void Update(Vector<float> positionVector, Vector<float> rotationVector, Vector<float> scaleVector)
+        {
+            PositionVector = positionVector.Clone();
+            RotationVector = rotationVector.Clone();
+            ScaleVector = scaleVector.Clone();
         }
     }
 }

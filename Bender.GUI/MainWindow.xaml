@@ -28,10 +28,58 @@
             </MenuItem>
         </Menu>
 
-        <Canvas Name="SceneCanvas" Grid.Row="1" Grid.RowSpan="2" Grid.Column="0" Background="Black"/>
+        <Canvas Name="SceneCanvas" Grid.Row="1" Grid.RowSpan="2" Grid.Column="0" Background="Black" MouseRightButtonDown="SceneCanvas_OnMouseRightButtonDown"
+                MouseMove="SceneCanvas_OnMouseMove"/>
 
-        <DockPanel Grid.Column="1" Grid.Row="1" Background="LightGray"></DockPanel>
+        <DockPanel Grid.Column="1" Grid.Row="1" Background="LightGray">
+            <ListBox Name="GeometryListBox" SelectionChanged="GeometryListBox_OnSelectionChanged">
+            </ListBox>
+        </DockPanel>
 
-        <DockPanel Grid.Column="1" Grid.Row="2" Background="DarkGray"></DockPanel>
+        <DockPanel Grid.Column="1" Grid.Row="2" Background="DarkGray">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Column="0" Grid.Row="0" Text="Position"/>
+                <TextBlock Grid.Column="1" Grid.Row="0" Text="X"/>
+                <TextBlock Grid.Column="3" Grid.Row="0" Text="Y"/>
+                <TextBlock Grid.Column="5" Grid.Row="0" Text="Z"/>
+                <TextBlock Grid.Column="0" Grid.Row="1" Text="Rotation"/>
+                <TextBlock Grid.Column="1" Grid.Row="1" Text="X"/>
+                <TextBlock Grid.Column="3" Grid.Row="1" Text="Y"/>
+                <TextBlock Grid.Column="5" Grid.Row="1" Text="Z"/>
+                <TextBlock Grid.Column="0" Grid.Row="2" Text="Scale"/>
+                <TextBlock Grid.Column="1" Grid.Row="2" Text="X"/>
+                <TextBlock Grid.Column="3" Grid.Row="2" Text="Y"/>
+                <TextBlock Grid.Column="5" Grid.Row="2" Text="Z"/>
+
+                <TextBox Name="PositionXTextBox" Grid.Column="2" Grid.Row="0" TextChanged="CoordinateTextBox_OnTextChanged"/>
+                <TextBox Name="PositionYTextBox" Grid.Column="4" Grid.Row="0" TextChanged="CoordinateTextBox_OnTextChanged"/>
+                <TextBox Name="PositionZTextBox" Grid.Column="6" Grid.Row="0" TextChanged="CoordinateTextBox_OnTextChanged"/>
+
+                <TextBox Name="RotationXTextBox" Grid.Column="2" Grid.Row="1" TextChanged="CoordinateTextBox_OnTextChanged"/>
+                <TextBox Name="RotationYTextBox" Grid.Column="4" Grid.Row="1" TextChanged="CoordinateTextBox_OnTextChanged"/>
+                <TextBox Name="RotationZTextBox" Grid.Column="6" Grid.Row="1" TextChanged="CoordinateTextBox_OnTextChanged"/>
+
+                <TextBox Name="ScaleXTextBox" Grid.Column="2" Grid.Row="2" TextChanged="CoordinateTextBox_OnTextChanged"/>
+                <TextBox Name="ScaleYTextBox" Grid.Column="4" Grid.Row="2" TextChanged="CoordinateTextBox_OnTextChanged"/>
+                <TextBox Name="ScaleZTextBox" Grid.Column="6" Grid.Row="2" TextChanged="CoordinateTextBox_OnTextChanged"/>
+
+            </Grid>
+        </DockPanel>
     </Grid>
 </Window>
