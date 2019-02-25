@@ -39,11 +39,11 @@ namespace Bender.ClassLibrary
 
             for (float alpha = 0.0f;
                 alpha <= (float) MathNet.Numerics.Trig.DegreeToRadian(360);
-                alpha += (float) MathNet.Numerics.Trig.DegreeToRadian(5))
+                alpha += (float) MathNet.Numerics.Trig.DegreeToRadian(20))
             {
                 for (float beta = 0.0f;
                     beta <= (float) MathNet.Numerics.Trig.DegreeToRadian(360);
-                    beta += (float) MathNet.Numerics.Trig.DegreeToRadian(5))
+                    beta += (float) MathNet.Numerics.Trig.DegreeToRadian(20))
                 {
                     float x = (float) Math.Cos(alpha) * (_bigRadius + _smallRadius * (float) Math.Cos(beta));
                     float z = (float) Math.Sin(alpha) * (_bigRadius + _smallRadius * (float) Math.Cos(beta));
@@ -51,8 +51,8 @@ namespace Bender.ClassLibrary
 
                     vertices.Add(new DenseVector(new[] {x, y, z, 1f}));
 
-                    if (j > 0) edges.Add(new Edge(i * 72 + j - 1, i * 72 + j));
-                    if (i > 0) edges.Add(new Edge(i * 72 + j, (i - 1) * 72 + j));
+                    if (j > 0) edges.Add(new Edge(i * 18 + j - 1, i * 18 + j));
+                    if (i > 0) edges.Add(new Edge(i * 18 + j, (i - 1) * 18 + j));
 
                     j++;
                 }

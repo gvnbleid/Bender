@@ -71,5 +71,14 @@ namespace Bender.ClassLibrary
 
             return product;
         }
+
+        public static bool VectorInFrustum(Vector<float> vector)
+        {
+            if (vector[0] < -1 || vector[0] > 1) return false;
+            if (vector[1] < -1 || vector[1] > 1) return false;
+            if (vector[2] < -1 || vector[0] > 1) return false;
+
+            return true;
+        }
     }
 }

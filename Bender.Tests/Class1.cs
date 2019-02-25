@@ -17,7 +17,7 @@ namespace Bender.Tests
         [Fact]
         public void Camera_WorldToCameraSpace_OnePointCheck()
         {
-            Camera c = new Camera("camera", new DenseVector(new []{0f, 0f, 1f, 0f}), new DenseVector(new []{0f, 0f, 0f, 0f}), 0.1f, 10f, (float) Math.PI, 500, 500);
+            Camera c = new Camera("camera", new DenseVector(new []{0f, 0f, 1f, 0f}), new DenseVector(new []{0f, 0f, 0f, 0f}), 0.1f, 10f, (float) Math.PI, 500, 500, null);
             Cube singlePoint = new Cube("cube", 2f);
 
             var points = c.WorldToCameraSpace(singlePoint.Vertices);

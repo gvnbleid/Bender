@@ -32,6 +32,7 @@ namespace Bender.GUI
     public partial class MainWindow : Window
     {
         private readonly ObservableCollection<Bender.ClassLibrary.Geometry> _geometryObjects = new ObservableCollection<Bender.ClassLibrary.Geometry>();
+        private readonly ObservableCollection<string> _logs = new ObservableCollection<string>();
         private readonly List<Bender.ClassLibrary.Geometry> _figures = new List<Bender.ClassLibrary.Geometry>();
         private Camera _camera;
         private Point _mousePressPoint;
@@ -45,6 +46,7 @@ namespace Bender.GUI
             ComponentDispatcher.ThreadIdle += ComponentDispatcherOnThreadIdle;
 
             GeometryListBox.ItemsSource = _geometryObjects;
+            ConsoleListBox.ItemsSource = _logs;
 
             textboxes.Add(PositionXTextBox);
             textboxes.Add(PositionYTextBox);
@@ -137,55 +139,51 @@ namespace Bender.GUI
 
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            //Torus torus = new Torus(2f, 0.5f, 0.5f, 0.5f);
-            Cube cube = new Cube("cube", 1f);
-            Serializer.WriteVerticesToFile("torusModel.txt", cube.Vertices);
+            Torus torus = new Torus("torus", 2f, 0.5f, 0.5f, 0.5f);
+            //Cube cube = new Cube("cube", 1
 
             _camera = new Camera(
                 "camera",
-                new DenseVector(new[] {0f, 0f, 1f, 0f}),
+                new DenseVector(new[] {0f, 0f, 5f, 1f}),
                 new DenseVector(new[] {0f, 0f, 0f, 0f}),
                 0.1f,
-                5f,
-                (float) MathNet.Numerics.Trig.DegreeToRadian(120),
+                10f,
+                60f,
                 (float) SceneCanvas.ActualWidth,
-                (float) SceneCanvas.ActualHeight);
+                (float) SceneCanvas.ActualHeight,
+                _logs);
 
-            _camera.GeometryToRasterSpace(cube, out Point[] verticesToDraw, out bool[] clipped);
+            var lines = _camera.GeometryToRasterSpace(torus);
+            foreach (int[] line in lines)
+            {
+                DrawOnCanvas(line);
+            }
 
-            DrawOnCanvas(verticesToDraw, cube.Edges, clipped);
-
-            _geometryObjects.Add(cube);
+            _geometryObjects.Add(torus);
             _geometryObjects.Add(_camera);
 
-            _figures.Add(cube);
-            
+            _figures.Add(torus);
+
+
+            textboxes.ForEach(x => x.TextChanged += CoordinateTextBox_OnTextChanged);
+
         }
 
-        private void DrawOnCanvas(Point[] vertices, Edge[] topology, bool[] clippedVerticesInfo)
+        private void DrawOnCanvas(int[] coordinates)
         {
 
-            foreach (Edge edge in topology)
-            {
-                if(clippedVerticesInfo[edge.Beginning] && clippedVerticesInfo[edge.End]) continue;
+            Line line = new Line();
 
-                Line line = new Line();
+            line.X1 = coordinates[0];
+            line.Y1 = coordinates[1];
 
-                line.X1 = vertices[edge.Beginning].X;
-                line.Y1 = vertices[edge.Beginning].Y;
+            line.X2 = coordinates[2];
+            line.Y2 = coordinates[3];
 
-                line.X2 = vertices[edge.End].X;
-                line.Y2 = vertices[edge.End].Y;
+            line.Stroke = Brushes.Beige;
+            line.StrokeThickness = 0.5;
 
-                //if (line.X1 < 0 || line.X1 >= SceneCanvas.ActualWidth || line.X2 < 0 ||
-                //    line.X2 >= SceneCanvas.ActualWidth || line.Y1 < 0 || line.Y1 >= SceneCanvas.ActualHeight ||
-                //    line.Y2 < 0 || line.Y2 >= SceneCanvas.ActualHeight) continue;
-
-                line.Stroke = Brushes.Beige;
-                line.StrokeThickness = 0.5;
-
-                SceneCanvas.Children.Add(line);
-            }
+            SceneCanvas.Children.Add(line);
         }
 
         private void GeometryListBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -251,8 +249,11 @@ namespace Bender.GUI
 
             foreach (ClassLibrary.Geometry figure in _figures)
             {
-                _camera.GeometryToRasterSpace(figure, out Point[] points, out bool[] clipped);
-                DrawOnCanvas(points, figure.Edges, clipped);
+                var lines = _camera.GeometryToRasterSpace(figure);
+                foreach (int[] line in lines)
+                {
+                    DrawOnCanvas(line);
+                }
             }
         }
 
