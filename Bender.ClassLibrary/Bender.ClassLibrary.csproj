@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Camera.cs" />
+    <Compile Include="CohenSutherland.cs" />
     <Compile Include="Cube.cs" />
     <Compile Include="Edge.cs" />
     <Compile Include="Geometry.cs" />

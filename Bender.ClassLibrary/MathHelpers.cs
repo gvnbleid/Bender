@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using System.Numerics;
+using System.Security.Cryptography.X509Certificates;
 using MathNet.Numerics;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Single;
@@ -10,16 +12,15 @@ namespace Bender.ClassLibrary
     {
         public static Matrix<float> CalculateRotationMatrix(Vector<float> rotationVector)
         {
-            rotationVector[0] = (float) Trig.DegreeToRadian(rotationVector[0]);
-            rotationVector[1] = (float)Trig.DegreeToRadian(rotationVector[1]);
-            rotationVector[2] = (float)Trig.DegreeToRadian(rotationVector[2]);
+            var rad = rotationVector.Storage.AsArray().Select(x => (float) Trig.DegreeToRadian(x)).ToArray();
+            var radianRotation = new DenseVector(rad);
 
-            float cosX = (float) Math.Cos(rotationVector[0]);
-            float sinX = (float) Math.Sin(rotationVector[0]);
-            float cosY = (float) Math.Cos(rotationVector[1]);
-            float sinY = (float) Math.Sin(rotationVector[1]);
-            float cosZ = (float) Math.Cos(rotationVector[2]);
-            float sinZ = (float) Math.Sin(rotationVector[2]);
+            float cosX = (float) Math.Cos(radianRotation[0]);
+            float sinX = (float) Math.Sin(radianRotation[0]);
+            float cosY = (float) Math.Cos(radianRotation[1]);
+            float sinY = (float) Math.Sin(radianRotation[1]);
+            float cosZ = (float) Math.Cos(radianRotation[2]);
+            float sinZ = (float) Math.Sin(radianRotation[2]);
 
             Matrix xRotationMatrix = new DenseMatrix(4, 4);
             xRotationMatrix.SetRow(0, new []{1f, 0f, 0f, 0f});
@@ -47,6 +48,7 @@ namespace Bender.ClassLibrary
             Matrix<float> translationMatrix = new DenseMatrix(4,4);
             translationMatrix.SetDiagonal(new[] {1f, 1f, 1f, 1f});
             translationMatrix.SetColumn(3, positionVector);
+            translationMatrix[3, 3] = 1;
 
             return translationMatrix;
         }
@@ -72,11 +74,11 @@ namespace Bender.ClassLibrary
             return product;
         }
 
-        public static bool VectorInFrustum(Vector<float> vector)
+        public static bool PointInFrustum(Vector<float> vector)
         {
             if (vector[0] < -1 || vector[0] > 1) return false;
             if (vector[1] < -1 || vector[1] > 1) return false;
-            if (vector[2] < -1 || vector[0] > 1) return false;
+            if (vector[2] < -1 || vector[2] > 1) return false;
 
             return true;
         }

@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Bender.GUI"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800"
         WindowState="Maximized">
@@ -11,9 +12,9 @@
 
         <Grid.RowDefinitions>
             <RowDefinition Height="25"/>
+            <RowDefinition Height="2*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="100"/>
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
@@ -29,15 +30,15 @@
             </MenuItem>
         </Menu>
 
-        <Canvas Name="SceneCanvas" Grid.Row="1" Grid.RowSpan="2" Grid.Column="0" Background="Black" MouseRightButtonDown="SceneCanvas_OnMouseRightButtonDown"
-                MouseMove="SceneCanvas_OnMouseMove"/>
+        <Canvas Name="SceneCanvas" Grid.Row="1" Grid.RowSpan="3" Grid.Column="0" Background="Black" MouseRightButtonDown="SceneCanvas_OnMouseRightButtonDown"
+                MouseMove="SceneCanvas_OnMouseMove" KeyDown="GeometryListBox_OnKeyDown" Focusable="True" MouseEnter="SceneCanvas_OnMouseEnter"/>
 
         <DockPanel Grid.Column="1" Grid.Row="1" Background="LightGray">
             <ListBox Name="GeometryListBox" SelectionChanged="GeometryListBox_OnSelectionChanged">
             </ListBox>
         </DockPanel>
 
-        <DockPanel Grid.Column="1" Grid.Row="2" Grid.RowSpan="2" Background="DarkGray">
+        <DockPanel Name="CameraPanel" Grid.Column="1" Grid.Row="2" Background="DarkGray" Visibility="Hidden">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
@@ -55,36 +56,56 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
 
-                <TextBlock Grid.Column="0" Grid.Row="0" Text="Position"/>
-                <TextBlock Grid.Column="1" Grid.Row="0" Text="X"/>
-                <TextBlock Grid.Column="3" Grid.Row="0" Text="Y"/>
-                <TextBlock Grid.Column="5" Grid.Row="0" Text="Z"/>
-                <TextBlock Grid.Column="0" Grid.Row="1" Text="Rotation"/>
-                <TextBlock Grid.Column="1" Grid.Row="1" Text="X"/>
-                <TextBlock Grid.Column="3" Grid.Row="1" Text="Y"/>
-                <TextBlock Grid.Column="5" Grid.Row="1" Text="Z"/>
-                <TextBlock Grid.Column="0" Grid.Row="2" Text="Scale"/>
-                <TextBlock Grid.Column="1" Grid.Row="2" Text="X"/>
-                <TextBlock Grid.Column="3" Grid.Row="2" Text="Y"/>
-                <TextBlock Grid.Column="5" Grid.Row="2" Text="Z"/>
+                <TextBlock Grid.Column="0" Grid.Row="0" TextAlignment="Right" Text="Position"/>
+                <TextBlock Grid.Column="1" Grid.Row="0" TextAlignment="Right" Text="X"/>
+                <TextBlock Grid.Column="3" Grid.Row="0" TextAlignment="Right" Text="Y"/>
+                <TextBlock Grid.Column="5" Grid.Row="0" TextAlignment="Right" Text="Z"/>
+                <TextBlock Grid.Column="0" Grid.Row="1" TextAlignment="Right" Text="Rotation"/>
+                <TextBlock Grid.Column="1" Grid.Row="1" TextAlignment="Right" Text="X"/>
+                <TextBlock Grid.Column="3" Grid.Row="1" TextAlignment="Right" Text="Y"/>
+                <TextBlock Grid.Column="5" Grid.Row="1" TextAlignment="Right" Text="Z"/>
+                <TextBlock Grid.Column="0" Grid.Row="2" TextAlignment="Right" Text="Scale"/>
+                <TextBlock Grid.Column="1" Grid.Row="2" TextAlignment="Right" Text="X"/>
+                <TextBlock Grid.Column="3" Grid.Row="2" TextAlignment="Right" Text="Y"/>
+                <TextBlock Grid.Column="5" Grid.Row="2" TextAlignment="Right" Text="Z"/>
 
-                <TextBox Name="PositionXTextBox" Grid.Column="2" Grid.Row="0"/>
-                <TextBox Name="PositionYTextBox" Grid.Column="4" Grid.Row="0"/>
-                <TextBox Name="PositionZTextBox" Grid.Column="6" Grid.Row="0"/>
-
-                <TextBox Name="RotationXTextBox" Grid.Column="2" Grid.Row="1"/>
-                <TextBox Name="RotationYTextBox" Grid.Column="4" Grid.Row="1"/>
-                <TextBox Name="RotationZTextBox" Grid.Column="6" Grid.Row="1"/>
-
-                <TextBox Name="ScaleXTextBox" Grid.Column="2" Grid.Row="2"/>
-                <TextBox Name="ScaleYTextBox" Grid.Column="4" Grid.Row="2"/>
-                <TextBox Name="ScaleZTextBox" Grid.Column="6" Grid.Row="2"/>
+                <xctk:DecimalUpDown x:Name="PositionXUpDown" Grid.Column="2" Grid.Row="0" Increment="0.1"/>
+                <xctk:DecimalUpDown Name="PositionYUpDown" Grid.Column="4" Grid.Row="0" Increment="0.1"/>
+                <xctk:DecimalUpDown Name="PositionZUpDown" Grid.Column="6" Grid.Row="0" Increment="0.1"/>
+                 
+                <xctk:DecimalUpDown Name="RotationXUpDown" Grid.Column="2" Grid.Row="1" Increment="1"/>
+                <xctk:DecimalUpDown Name="RotationYUpDown" Grid.Column="4" Grid.Row="1" Increment="1"/>
+                <xctk:DecimalUpDown Name="RotationZUpDown" Grid.Column="6" Grid.Row="1" Increment="1"/>
+                 
+                <xctk:DecimalUpDown Name="ScaleXUpDown" Grid.Column="2" Grid.Row="2" Increment="0.1"/>
+                <xctk:DecimalUpDown Name="ScaleYUpDown" Grid.Column="4" Grid.Row="2" Increment="0.1"/>
+                <xctk:DecimalUpDown Name="ScaleZUpDown" Grid.Column="6" Grid.Row="2" Increment="0.1"/>
 
             </Grid>
         </DockPanel>
 
-        <ScrollViewer Name="ConsoleScrollViewer" Grid.Column="0" Grid.Row="3" Background="Gray">
-            <ListBox Name="ConsoleListBox"></ListBox>
-        </ScrollViewer>
+        <DockPanel Name="SelectedElementDockPanel" Grid.Column="1" Grid.Row="2" Background="DarkGray" Visibility="Hidden">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="22*"/>
+                    <ColumnDefinition Width="153*"/>
+                    <ColumnDefinition Width="175*"/>
+
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="Alpha density" Grid.ColumnSpan="2"/>
+                <TextBlock Grid.Row="1" Text="Beta density" Grid.ColumnSpan="2"/>
+
+                <xctk:DecimalUpDown Name="AlphaDensDecUpDown" Grid.Column="2" Grid.Row="0" ClipValueToMinMax="True" Minimum="4" Maximum="360" Increment="1"></xctk:DecimalUpDown>
+                <xctk:DecimalUpDown Name="BetaDensDecUpDown" Grid.Column="2" Grid.Row="1" ClipValueToMinMax="True" Minimum="4" Maximum="360" Increment="1"></xctk:DecimalUpDown>
+            </Grid>
+        </DockPanel>
+
     </Grid>
 </Window>
