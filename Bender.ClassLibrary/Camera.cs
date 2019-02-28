@@ -165,6 +165,11 @@ namespace Bender.ClassLibrary
             return projectionMatrix;
         }
 
+        public void UpdateProjectionMatrix(float fieldOfView, float aspect, float nearClippingPlane, float farClippingPlane)
+        {
+            ProjectionMatrix = CalculateProjectionMatrix(fieldOfView, aspect, nearClippingPlane, farClippingPlane);
+        }
+
 
     }
 }

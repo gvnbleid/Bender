@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Bender.GUI"
+        xmlns:view="clr-namespace:Bender.GUI.Views"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800"
@@ -33,8 +34,10 @@
                 MouseMove="SceneCanvas_OnMouseMove" KeyDown="GeometryListBox_OnKeyDown" Focusable="True" MouseEnter="SceneCanvas_OnMouseEnter"/>
 
         <ListBox Grid.Column="1" Grid.Row="1" Name="GeometryListBox" Margin="2" Background="LightGray" SelectionChanged="GeometryListBox_OnSelectionChanged"/>
+        
+        <view:Camera x:Name="CameraView" Grid.Column="1" Grid.Row="2"></view:Camera>
 
-        <Grid Name="CameraPanel" Grid.Column="1" Grid.Row="2" Style="{StaticResource SettingsGrid}" >
+        <Grid Name="CameraPanel" Grid.Column="1" Grid.Row="2" Style="{StaticResource SettingsGrid}" Visibility="Hidden">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>

@@ -1,0 +1,127 @@
+﻿<UserControl x:Class="Bender.GUI.Views.Camera"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Bender.GUI.Views"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <Grid Style="{StaticResource SettingsGrid}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Column="0" Grid.Row="0" Text="Position"/>
+        <TextBlock Grid.Column="1" Grid.Row="0" Text="X"/>
+        <TextBlock Grid.Column="3" Grid.Row="0" Text="Y"/>
+        <TextBlock Grid.Column="5" Grid.Row="0" Text="Z"/>
+        <TextBlock Grid.Column="0" Grid.Row="1" Text="Rotation"/>
+        <TextBlock Grid.Column="1" Grid.Row="1" Text="X"/>
+        <TextBlock Grid.Column="3" Grid.Row="1" Text="Y"/>
+        <TextBlock Grid.Column="5" Grid.Row="1" Text="Z"/>
+        <TextBlock Grid.Column="0" Grid.Row="2" Text="Scale"/>
+        <TextBlock Grid.Column="1" Grid.Row="2" Text="X"/>
+        <TextBlock Grid.Column="3" Grid.Row="2" Text="Y"/>
+        <TextBlock Grid.Column="5" Grid.Row="2" Text="Z"/>
+        <TextBlock Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" Text="Near clip plane"/>
+        <TextBlock Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="2" Text="Far clip plane"/>
+        <TextBlock Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="2" Text="Field of view"/>
+
+        <xctk:DecimalUpDown x:Name="PositionXUpDown" 
+                            Grid.Column="2"
+                            Grid.Row="0"
+                            Increment="0.1"
+                            Value="{Binding PositionX}"/>
+
+        <xctk:DecimalUpDown Name="PositionYUpDown" 
+                            Grid.Column="4"
+                            Grid.Row="0"
+                            Increment="0.1"
+                            Value="{Binding PositionY}"/>
+
+        <xctk:DecimalUpDown Name="PositionZUpDown" 
+                            Grid.Column="6"
+                            Grid.Row="0"
+                            Increment="0.1"
+                            Value="{Binding PositionZ}"/>
+
+        <xctk:DecimalUpDown Name="RotationXUpDown" 
+                            Grid.Column="2" 
+                            Grid.Row="1" 
+                            Increment="1"
+                            Value="{Binding RotationX}"/>
+
+        <xctk:DecimalUpDown Name="RotationYUpDown" 
+                            Grid.Column="4" 
+                            Grid.Row="1" 
+                            Increment="1"
+                            Value="{Binding RotationY}"/>
+
+        <xctk:DecimalUpDown Name="RotationZUpDown" 
+                            Grid.Column="6" 
+                            Grid.Row="1" 
+                            Increment="1"
+                            Value="{Binding RotationZ}"/>
+
+        <xctk:DecimalUpDown Name="ScaleXUpDown" 
+                            Grid.Column="2" 
+                            Grid.Row="2" 
+                            Increment="0.1"
+                            Value="{Binding ScaleX}"/>
+
+        <xctk:DecimalUpDown Name="ScaleYUpDown" 
+                            Grid.Column="4" 
+                            Grid.Row="2" 
+                            Increment="0.1"
+                            Value="{Binding ScaleY}"/>
+
+        <xctk:DecimalUpDown Name="ScaleZUpDown" 
+                            Grid.Column="6" 
+                            Grid.Row="2" 
+                            Increment="0.1"
+                            Value="{Binding ScaleZ}"/>
+
+        <xctk:DecimalUpDown Name="NearClipPlaneUpDown" 
+                                Grid.Column="2" 
+                                Grid.Row="4"
+                                Grid.ColumnSpan="2"
+                                Increment="0.1" 
+                                Minimum="0.01" 
+                                ClipToBounds="True"/>
+
+        <xctk:DecimalUpDown Name="FarClipPlaneUpDown" 
+                                Grid.Column="2"
+                                Grid.Row="5"
+                                Grid.ColumnSpan="2"
+                                Increment="0.1"
+                                Minimum="0.01"
+                                ClipToBounds="True"/>
+
+        <xctk:DecimalUpDown Name="FieldOfViewUpDown" 
+                                Grid.Column="2"
+                                Grid.Row="6"
+                                Grid.ColumnSpan="2"
+                                Increment="0.1"
+                                Minimum="1"
+                                Maximum="160"
+                                ClipToBounds="True"/>
+    </Grid>
+</UserControl>

@@ -17,6 +17,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Bender.ClassLibrary;
+using Bender.GUI.ViewModels;
 using MathNet.Numerics;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Single;
@@ -39,6 +40,7 @@ namespace Bender.GUI
         private Point _mousePressPoint;
         private List<DecimalUpDown> upDowns = new List<DecimalUpDown>();
         private Torus _torus;
+        private GeometryViewModel _cameraViewModel;
 
         public MainWindow()
         {
@@ -98,6 +100,8 @@ namespace Bender.GUI
                 (float) SceneCanvas.ActualWidth,
                 (float) SceneCanvas.ActualHeight,
                 _logs);
+
+            //_cameraViewModel = new GeometryViewModel(_camera);
 
             var lines = _camera.GeometryToRasterSpace(torus);
 
