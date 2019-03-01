@@ -75,13 +75,20 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Direction.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="ViewModels\CameraViewModel.cs" />
+    <Compile Include="Coordinate.cs" />
+    <Compile Include="ViewModels\SceneViewModel.cs" />
     <Compile Include="ViewModels\GeometryViewModel.cs" />
     <Compile Include="ViewModels\TorusViewModel.cs" />
+    <Compile Include="VectorKind.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\Camera.xaml.cs">
       <DependentUpon>Camera.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Torus.xaml.cs">
+      <DependentUpon>Torus.xaml</DependentUpon>
     </Compile>
     <Compile Include="VisualHost.cs" />
     <Page Include="MainWindow.xaml">
@@ -97,6 +104,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\Camera.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Torus.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

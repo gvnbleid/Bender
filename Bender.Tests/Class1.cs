@@ -17,7 +17,7 @@ namespace Bender.Tests
         [Fact]
         public void Camera_WorldToCameraSpace_OnePointCheck()
         {
-            Camera c = new Camera("camera", new DenseVector(new []{0f, 0f, 1f, 0f}), new DenseVector(new []{0f, 0f, 0f, 0f}), 0.1f, 10f, (float) Math.PI, 500, 500, null);
+            Camera c = new Camera("camera", new DenseVector(new []{0f, 0f, 1f, 0f}), new DenseVector(new []{0f, 0f, 0f, 0f}), 0.1f, 10f, (float) Math.PI, 500, 500);
             Cube singlePoint = new Cube("cube", 2f);
 
             var points = c.WorldToCameraSpace(singlePoint.Vertices);
@@ -28,7 +28,7 @@ namespace Bender.Tests
         [Fact]
         public void Camera_WorldToCameraSpace_InFrontOfCamera()
         {
-            Camera c = new Camera("camera", new DenseVector(new[] { 0f, 0f, 2f, 1f }), new DenseVector(new[] { 0f, 0f, 0f, 0f }), 0.1f, 10f, (float)Math.PI, 500, 500, null);
+            Camera c = new Camera("camera", new DenseVector(new[] { 0f, 0f, 2f, 1f }), new DenseVector(new[] { 0f, 0f, 0f, 0f }), 0.1f, 10f, (float)Math.PI, 500, 500);
             Cube singlePoint = new Cube("cube", 1f);
 
             var points = c.WorldToCameraSpace(singlePoint.Vertices);
@@ -39,7 +39,7 @@ namespace Bender.Tests
         [Fact]
         public void Camera_WorldToCameraSpace_BehindCamera()
         {
-            Camera c = new Camera("camera", new DenseVector(new[] { 0f, 0f, 0f, 1f }), new DenseVector(new[] { 0f, 0f, 0f, 0f }), 0.1f, 10f, (float)Math.PI, 500, 500, null);
+            Camera c = new Camera("camera", new DenseVector(new[] { 0f, 0f, 0f, 1f }), new DenseVector(new[] { 0f, 0f, 0f, 0f }), 0.1f, 10f, (float)Math.PI, 500, 500);
             Cube singlePoint = new Cube("cube", 1f);
 
             var points = c.WorldToCameraSpace(singlePoint.Vertices);
@@ -50,7 +50,7 @@ namespace Bender.Tests
         [Fact]
         public void MatrixInversion()
         {
-            Camera c = new Camera("camera", new DenseVector(new[] { 0f, 0f, 2f, 1f }), new DenseVector(new[] { 0f, 0f, 0f, 0f }), 0.1f, 10f, (float)Math.PI, 500, 500, null);
+            Camera c = new Camera("camera", new DenseVector(new[] { 0f, 0f, 2f, 1f }), new DenseVector(new[] { 0f, 0f, 0f, 0f }), 0.1f, 10f, (float)Math.PI, 500, 500);
             Matrix<float> m = new DenseMatrix(4, 4);
             m.SetDiagonal(new[] {1f, 1f, 1f, 1f});
             m[2, 3] = -2;
@@ -60,7 +60,7 @@ namespace Bender.Tests
         [Fact]
         public void Camera_WorldToCameraAndProjection()
         {
-            Camera c = new Camera("camera", new DenseVector(new[] { 0f, 0f, 0f, 1f }), new DenseVector(new[] { 0f, 0f, 0f, 0f }), 0.1f, 0.5f, (float)Math.PI, 500, 500, null);
+            Camera c = new Camera("camera", new DenseVector(new[] { 0f, 0f, 0f, 1f }), new DenseVector(new[] { 0f, 0f, 0f, 0f }), 0.1f, 0.5f, (float)Math.PI, 500, 500);
             Cube singlePoint = new Cube("cube", 1f);
 
             Assert.Equal(new DenseVector(new float[] {-0.5f, -0.5f, -0.5f, 1}), singlePoint.Vertices[0]);
@@ -77,7 +77,7 @@ namespace Bender.Tests
         [Fact]
         public void Camera_WorldToCameraAndProjection2()
         {
-            Camera c = new Camera("camera", new DenseVector(new[] { 0f, 0f, 0f, 1f }), new DenseVector(new[] { 0f, 0f, 0f, 0f }), 0.01f, 0.02f, (float)Math.PI, 500, 500, null);
+            Camera c = new Camera("camera", new DenseVector(new[] { 0f, 0f, 0f, 1f }), new DenseVector(new[] { 0f, 0f, 0f, 0f }), 0.01f, 0.02f, (float)Math.PI, 500, 500);
             Cube singlePoint = new Cube("cube", 0.2f);
 
             Assert.Equal(new DenseVector(new float[] { -0.1f, -0.1f, -0.1f, 1 }), singlePoint.Vertices[0]);
@@ -94,7 +94,7 @@ namespace Bender.Tests
         [Fact]
         public void Camera_WorldToCameraAndProjectionAndClip()
         {
-            Camera c = new Camera("camera", new DenseVector(new[] { 0f, 0f, 0f, 1f }), new DenseVector(new[] { 0f, 0f, 0f, 0f }), 0.1f, 10f, (float)Math.PI, 500, 500, null);
+            Camera c = new Camera("camera", new DenseVector(new[] { 0f, 0f, 0f, 1f }), new DenseVector(new[] { 0f, 0f, 0f, 0f }), 0.1f, 10f, (float)Math.PI, 500, 500);
             Cube singlePoint = new Cube("cube", 1f);
 
             Assert.Equal(new DenseVector(new float[] { -0.5f, -0.5f, 0.5f, 1 }), singlePoint.Vertices[4]);

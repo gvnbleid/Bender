@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using Bender.ClassLibrary;
 
 namespace Bender.GUI.ViewModels
@@ -17,28 +18,32 @@ namespace Bender.GUI.ViewModels
 
         private Camera _camera;
 
-        public CameraViewModel(Camera c)
+        public CameraViewModel(Camera c, SceneViewModel geometryListViewModel) : base(c, geometryListViewModel)
         {
-            _geometry = c;
             _camera = c;
         }
 
         public decimal NearClippingPlane
         {
-            get { return (decimal) _nearClippingPlane; }
-            set { _nearClippingPlane = value; }
+            get => (decimal) _nearClippingPlane;
+            set => _nearClippingPlane = (float) value;
         }
 
         public decimal FarClippingPlane
         {
-            get { return (decimal) _farClippingPlane; }
-            set { _farClippingPlane = value; }
+            get => (decimal) _farClippingPlane;
+            set => _farClippingPlane = (float) value;
         }
 
         public decimal FieldOfView
         {
-            get { return (decimal) _fieldOfView; }
-            set { _fieldOfView = value; }
+            get => (decimal) _fieldOfView;
+            set => _fieldOfView = (float) value;
+        }
+
+        public override UserControl CreateView()
+        {
+            return new Views.Camera {DataContext = this};
         }
     }
 }

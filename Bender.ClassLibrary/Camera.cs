@@ -17,7 +17,6 @@ namespace Bender.ClassLibrary
 {
     public class Camera : Geometry
     {
-        private ObservableCollection<string> _logs;
         private Matrix<float> _viewMatrix;
         public Matrix<float> ViewMatrix
         {
@@ -35,15 +34,13 @@ namespace Bender.ClassLibrary
         public float ScreenHeight { get; private set; }
 
         public Camera(string name, Vector<float> positionVector, Vector<float> rotationVector, float nearClippingPlane,
-            float farClippingPlane, float fieldOfView, float screenWidth, float screenHeight, ObservableCollection<string> logs) :
+            float farClippingPlane, float fieldOfView, float screenWidth, float screenHeight) :
             base(name, positionVector, rotationVector, new DenseVector(new[] {1f, 1f, 1f, 0f}))
         {
             ScaleVector = new DenseVector(new[] {1f, 1f, 1f, 0f});
 
             Update(positionVector, rotationVector, nearClippingPlane, farClippingPlane, fieldOfView, screenWidth,
                 screenHeight, name);
-
-            _logs = logs;
         }
 
         public void Update(Vector<float> positionVector, Vector<float> rotationVector, float nearClippingPlane,

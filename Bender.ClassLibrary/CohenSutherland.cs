@@ -24,16 +24,12 @@ namespace Bender.ClassLibrary
                 if (vertex[i] > 1) code[i * 2 + 1] = true;
             }
 
-            //if (vertex[3] > 1) code[4] = true;
-            //if (vertex[3] < -1) code[5] = true;
-
                 return code;
         }
 
         public static bool TryClipLine(Vector<float> v1, Vector<float> v2, out float[] line)
         {
             line = null;
-            int counter = 0;
 
             if (v1[3] < 0 && v2[3] < 0) return false;
 
@@ -82,12 +78,6 @@ namespace Bender.ClassLibrary
 
                     if (br) break;
 
-                }
-
-                counter++;
-                if (counter == 3)
-                {
-                    int a = 5;
                 }
             }
         }

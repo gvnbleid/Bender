@@ -1,35 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media;
-using Bender.GUI.Annotations;
+﻿using System.ComponentModel;
+using System.Windows.Controls;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Single;
 using Geometry = Bender.ClassLibrary.Geometry;
 
 namespace Bender.GUI.ViewModels
 {
-    public abstract class GeometryViewModel : ViewModelBase
+    public abstract partial class GeometryViewModel : ViewModelBase
     {
-        private enum Coordinate
-        {
-            X,
-            Y,
-            Z
-        }
-
-        private enum VectorKind
-        {
-            Transform,
-            Rotate,
-            Scale
-        }
-
-        protected Geometry _geometry;
+        protected Geometry Geometry;
+        protected SceneViewModel SceneViewModel;
 
         private float _positionX;
         private float _positionY;
@@ -54,64 +34,80 @@ namespace Bender.GUI.ViewModels
             _scaleZ = 0;
         }
 
-        //public GeometryViewModel(Geometry g)
-        //{
-        //    _geometry = g;
-        //}
+        protected GeometryViewModel(Geometry g, SceneViewModel glvm)
+        {
+            Geometry = g;
+
+            SceneViewModel = glvm;
+
+            _positionX = g.PositionVector[0];
+            _positionY = g.PositionVector[1];
+            _positionZ = g.PositionVector[2];
+
+            _rotationX = g.RotationVector[0];
+            _rotationY = g.RotationVector[1];
+            _rotationZ = g.RotationVector[2];
+
+            _scaleX = g.ScaleVector[0];
+            _scaleY = g.ScaleVector[1];
+            _scaleZ = g.ScaleVector[2];
+        }
 
         public decimal PositionX
         {
-            get { return (decimal) _positionX; }
-            set { UpdateGeometryAndSetProperty(VectorKind.Transform, Coordinate.X, (float) value); }
+            get => (decimal) _positionX;
+            set => UpdateGeometryAndSetProperty(VectorKind.Transform, Coordinate.X, (float) value);
         }
 
         public decimal PositionY
         {
-            get { return (decimal) _positionY; }
-            set { UpdateGeometryAndSetProperty(VectorKind.Transform, Coordinate.Y, (float) value); }
+            get => (decimal) _positionY;
+            set => UpdateGeometryAndSetProperty(VectorKind.Transform, Coordinate.Y, (float) value);
         }
 
         public decimal PositionZ
         {
-            get { return (decimal) _positionZ; }
-            set { UpdateGeometryAndSetProperty(VectorKind.Transform, Coordinate.Z, (float) value); }
+            get => (decimal) _positionZ;
+            set => UpdateGeometryAndSetProperty(VectorKind.Transform, Coordinate.Z, (float) value);
         }
 
         public decimal RotationX
         {
-            get { return (decimal) _rotationX; }
-            set { UpdateGeometryAndSetProperty(VectorKind.Rotate, Coordinate.X, (float) value); }
+            get => (decimal) _rotationX;
+            set => UpdateGeometryAndSetProperty(VectorKind.Rotate, Coordinate.X, (float) value);
         }
 
         public decimal RotationY
         {
-            get { return (decimal) _rotationY; }
-            set { UpdateGeometryAndSetProperty(VectorKind.Rotate, Coordinate.Y, (float) value); }
+            get => (decimal) _rotationY;
+            set => UpdateGeometryAndSetProperty(VectorKind.Rotate, Coordinate.Y, (float) value);
         }
 
         public decimal RotationZ
         {
-            get { return (decimal) _rotationZ; }
-            set { UpdateGeometryAndSetProperty(VectorKind.Rotate, Coordinate.Z, (float) value); }
+            get => (decimal) _rotationZ;
+            set => UpdateGeometryAndSetProperty(VectorKind.Rotate, Coordinate.Z, (float) value);
         }
 
         public decimal ScaleX
         {
-            get { return (decimal) _scaleX; }
-            set { UpdateGeometryAndSetProperty(VectorKind.Scale, Coordinate.X, (float) value); }
+            get => (decimal) _scaleX;
+            set => UpdateGeometryAndSetProperty(VectorKind.Scale, Coordinate.X, (float) value);
         }
 
         public decimal ScaleY
         {
-            get { return (decimal) _scaleY; }
-            set { UpdateGeometryAndSetProperty(VectorKind.Scale, Coordinate.Y, (float) value); }
+            get => (decimal) _scaleY;
+            set => UpdateGeometryAndSetProperty(VectorKind.Scale, Coordinate.Y, (float) value);
         }
 
         public decimal ScaleZ
         {
-            get { return (decimal) _scaleZ; }
-            set { UpdateGeometryAndSetProperty(VectorKind.Scale, Coordinate.Z, (float) value); }
+            get => (decimal) _scaleZ;
+            set => UpdateGeometryAndSetProperty(VectorKind.Scale, Coordinate.Z, (float) value);
         }
+
+        public abstract UserControl CreateView(); 
 
         private void UpdateGeometryAndSetProperty(VectorKind k, Coordinate c, float value)
         {
@@ -129,6 +125,8 @@ namespace Bender.GUI.ViewModels
             UpdateGeometry(k, v);
 
             SetProperty(c, k, value);
+
+            SceneViewModel.Refresh();
         }
 
         private void SetProperty(Coordinate c, VectorKind k, float value)
@@ -203,12 +201,12 @@ namespace Bender.GUI.ViewModels
             switch (k)
             {
                 case VectorKind.Rotate:
-                    _geometry.Rotate(v);
+                    Geometry.Rotate(v);
                     break;
                 case VectorKind.Scale:
                     break;
                 case VectorKind.Transform:
-                    _geometry.Transform(v);
+                    Geometry.Transform(v);
                     break;
                 default:
                     throw new InvalidEnumArgumentException();

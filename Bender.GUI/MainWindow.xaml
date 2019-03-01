@@ -30,110 +30,19 @@
             </MenuItem>
         </Menu>
 
-        <Canvas Name="SceneCanvas" Grid.Row="1" Grid.RowSpan="3" Grid.Column="0" Background="Black" MouseRightButtonDown="SceneCanvas_OnMouseRightButtonDown"
-                MouseMove="SceneCanvas_OnMouseMove" KeyDown="GeometryListBox_OnKeyDown" Focusable="True" MouseEnter="SceneCanvas_OnMouseEnter"/>
+        <Canvas Name="SceneCanvas" Grid.Row="1" Grid.RowSpan="3" Grid.Column="0" Background="Black" KeyDown="GeometryListBox_OnKeyDown" Focusable="True" MouseEnter="SceneCanvas_OnMouseEnter"/>
 
-        <ListBox Grid.Column="1" Grid.Row="1" Name="GeometryListBox" Margin="2" Background="LightGray" SelectionChanged="GeometryListBox_OnSelectionChanged"/>
-        
-        <view:Camera x:Name="CameraView" Grid.Column="1" Grid.Row="2"></view:Camera>
+        <ListBox Grid.Column="1" 
+                 Grid.Row="1" 
+                 Name="GeometryListBox" 
+                 Margin="2"
+                 Background="LightGray" 
+                 SelectionChanged="GeometryListBox_OnSelectionChanged"
+                 ItemsSource="{Binding GeometryList}"/>
 
-        <Grid Name="CameraPanel" Grid.Column="1" Grid.Row="2" Style="{StaticResource SettingsGrid}" Visibility="Hidden">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-
-            <Grid.RowDefinitions>
-                <RowDefinition Height="25"/>
-                <RowDefinition Height="25"/>
-                <RowDefinition Height="25"/>
-                <RowDefinition Height="10"/>
-                <RowDefinition Height="25"/>
-                <RowDefinition Height="25"/>
-                <RowDefinition Height="25"/>
-            </Grid.RowDefinitions>
-
-            <TextBlock Grid.Column="0" Grid.Row="0" Text="Position"/>
-            <TextBlock Grid.Column="1" Grid.Row="0" Text="X"/>
-            <TextBlock Grid.Column="3" Grid.Row="0" Text="Y"/>
-            <TextBlock Grid.Column="5" Grid.Row="0" Text="Z"/>
-            <TextBlock Grid.Column="0" Grid.Row="1" Text="Rotation"/>
-            <TextBlock Grid.Column="1" Grid.Row="1" Text="X"/>
-            <TextBlock Grid.Column="3" Grid.Row="1" Text="Y"/>
-            <TextBlock Grid.Column="5" Grid.Row="1" Text="Z"/>
-            <TextBlock Grid.Column="0" Grid.Row="2" Text="Scale"/>
-            <TextBlock Grid.Column="1" Grid.Row="2" Text="X"/>
-            <TextBlock Grid.Column="3" Grid.Row="2" Text="Y"/>
-            <TextBlock Grid.Column="5" Grid.Row="2" Text="Z"/>
-            <TextBlock Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" Text="Near clip plane"/>
-            <TextBlock Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="2" Text="Far clip plane"/>
-            <TextBlock Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="2" Text="Field of view"/>
-
-            <xctk:DecimalUpDown x:Name="PositionXUpDown" Grid.Column="2" Grid.Row="0" Increment="0.1"/>
-            <xctk:DecimalUpDown Name="PositionYUpDown" Grid.Column="4" Grid.Row="0" Increment="0.1"/>
-            <xctk:DecimalUpDown Name="PositionZUpDown" Grid.Column="6" Grid.Row="0" Increment="0.1"/>
-                 
-            <xctk:DecimalUpDown Name="RotationXUpDown" Grid.Column="2" Grid.Row="1" Increment="1"/>
-            <xctk:DecimalUpDown Name="RotationYUpDown" Grid.Column="4" Grid.Row="1" Increment="1"/>
-            <xctk:DecimalUpDown Name="RotationZUpDown" Grid.Column="6" Grid.Row="1" Increment="1"/>
-                 
-            <xctk:DecimalUpDown Name="ScaleXUpDown" Grid.Column="2" Grid.Row="2" Increment="0.1"/>
-            <xctk:DecimalUpDown Name="ScaleYUpDown" Grid.Column="4" Grid.Row="2" Increment="0.1"/>
-            <xctk:DecimalUpDown Name="ScaleZUpDown" Grid.Column="6" Grid.Row="2" Increment="0.1"/>
-
-            <xctk:DecimalUpDown Name="NearClipPlaneUpDown" 
-                                Grid.Column="2" 
-                                Grid.Row="4"
-                                Grid.ColumnSpan="2"
-                                Increment="0.1" 
-                                Minimum="0.01" 
-                                ClipToBounds="True"/>
-            
-            <xctk:DecimalUpDown Name="FarClipPlaneUpDown" 
-                                Grid.Column="2"
-                                Grid.Row="5"
-                                Grid.ColumnSpan="2"
-                                Increment="0.1"
-                                Minimum="0.01"
-                                ClipToBounds="True"/>
-            
-            <xctk:DecimalUpDown Name="FieldOfViewUpDown" 
-                                Grid.Column="2"
-                                Grid.Row="6"
-                                Grid.ColumnSpan="2"
-                                Increment="0.1"
-                                Minimum="1"
-                                Maximum="160"
-                                ClipToBounds="True"/>
-
-        </Grid>
-
-
-        <Grid Name="SelectedElementDockPanel" Grid.Column="1" Grid.Row="2" Margin="2" Background="LightGray" Visibility="Hidden">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="22*"/>
-                <ColumnDefinition Width="153*"/>
-                <ColumnDefinition Width="175*"/>
-
-            </Grid.ColumnDefinitions>
-
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-
-            <TextBlock Text="Alpha density" Grid.ColumnSpan="2"/>
-            <TextBlock Grid.Row="1" Text="Beta density" Grid.ColumnSpan="2"/>
-
-            <xctk:DecimalUpDown Name="AlphaDensDecUpDown" Grid.Column="2" Grid.Row="0" ClipValueToMinMax="True" Minimum="3" Maximum="360" Increment="1"></xctk:DecimalUpDown>
-            <xctk:DecimalUpDown Name="BetaDensDecUpDown" Grid.Column="2" Grid.Row="1" ClipValueToMinMax="True" Minimum="3" Maximum="360" Increment="1"></xctk:DecimalUpDown>
-        </Grid>
+        <DockPanel Name="SelectedElemDockPanel"
+                   Grid.Column="1"
+                   Grid.Row="2"></DockPanel>
 
 
     </Grid>

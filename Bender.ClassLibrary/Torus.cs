@@ -15,10 +15,28 @@ namespace Bender.ClassLibrary
 
         private float _bigRadius;
         private float _smallRadius;
-        public float AlphaDensity { get; private set; }
-        public float BetaDensity { get; private set; }
+        private int _alphaDensity;
+        private int _betaDensity;
+        public int AlphaDensity
+        {
+            get => _alphaDensity;
+            set
+            {
+                _alphaDensity = value;
+                Generate();
+            }
+        }
+        public int BetaDensity
+        {
+            get => _betaDensity;
+            set
+            {
+                _betaDensity = value;
+                Generate();
+            }
+        }
 
-        public Torus(string name, float bigRadius, float smallRadius, float alphaDensity, float betaDensity) : base(
+        public Torus(string name, float bigRadius, float smallRadius, int alphaDensity, int betaDensity) : base(
             name, new DenseVector(new[] {0f, 0f, 0f, 0f}),
             new DenseVector(new[] {0f, 0f, 0f, 0f}), new DenseVector(new[] {1f, 1f, 1f, 0f}))
         {
@@ -30,27 +48,24 @@ namespace Bender.ClassLibrary
 
             _bigRadius = bigRadius;
             _smallRadius = smallRadius;
-            AlphaDensity = alphaDensity;
-            BetaDensity = betaDensity;
+            _alphaDensity = alphaDensity;
+            _betaDensity = betaDensity;
 
-            UpdateDensity(AlphaDensity, BetaDensity);
+            Generate();
         }
 
-        public void UpdateDensity(float alphaDensity, float betaDensity)
+        private void Generate()
         {
-            AlphaDensity = alphaDensity;
-            BetaDensity = betaDensity;
-
-            var alphaIncrement = 360f / alphaDensity;
-            var betaIncrement = 360f / betaDensity;
+            var alphaIncrement = 360f / AlphaDensity;
+            var betaIncrement = 360f / BetaDensity;
 
             List<Vector> vertices = new List<Vector>();
             List<Edge> edges = new List<Edge>();
             int i, j;
             i = j = 0;
 
-            int k = (int) betaDensity;
-            int l = (int) alphaDensity;
+            int k = (int)BetaDensity;
+            int l = (int)AlphaDensity;
 
             for (float alpha = 0.0f;
                 alpha < 359.5f;
