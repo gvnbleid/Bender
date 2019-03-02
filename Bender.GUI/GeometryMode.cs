@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Bender.ClassLibrary
+namespace Bender.GUI
 {
-    public interface IListable
+    public enum GeometryMode
     {
-        
+        Implicit,
+        Parametric
     }
 }

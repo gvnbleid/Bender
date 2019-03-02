@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Single;
 
-namespace Bender.ClassLibrary
+namespace Bender.ClassLibrary.Geometry
 {
-    public class Cube : Geometry
+    public class Cube : ParametricGeometry
     {
 
-        public Cube(string name, float size) : base(name, new DenseVector(new[] {0f, 0f, 0f, 0f}),
-            new DenseVector(new[] {0f, 0f, 0f, 0f}), new DenseVector(new[] {size, size, size, 0f}))
+        public Cube(string name, float size) : base(name, new DenseVector(new[] { 0f, 0f, 0f, 0f }),
+            new DenseVector(new[] { 0f, 0f, 0f, 0f }), new DenseVector(new[] { size, size, size, 0f }))
         {
             List<Vector<float>> vertices = new List<Vector<float>>();
             List<Edge> edges = new List<Edge>();

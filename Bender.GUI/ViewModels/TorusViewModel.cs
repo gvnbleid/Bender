@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using Bender.ClassLibrary;
+using Bender.ClassLibrary.Geometry;
 
 namespace Bender.GUI.ViewModels
 {
@@ -36,7 +37,7 @@ namespace Bender.GUI.ViewModels
             }
         }
 
-        public TorusViewModel(Torus t, SceneViewModel geometryListViewModel) : base(t, geometryListViewModel)
+        public TorusViewModel(Torus t, SceneViewModel svm) : base(t, svm)
         {
             _torus = t;
         }

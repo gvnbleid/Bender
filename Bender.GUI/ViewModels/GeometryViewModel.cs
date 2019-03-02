@@ -2,14 +2,13 @@
 using System.Windows.Controls;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Single;
-using Geometry = Bender.ClassLibrary.Geometry;
+using Geometry = Bender.ClassLibrary.Geometry.Geometry;
 
 namespace Bender.GUI.ViewModels
 {
     public abstract partial class GeometryViewModel : ViewModelBase
     {
         protected Geometry Geometry;
-        protected SceneViewModel SceneViewModel;
 
         private float _positionX;
         private float _positionY;
@@ -21,7 +20,7 @@ namespace Bender.GUI.ViewModels
         private float _scaleY;
         private float _scaleZ;
 
-        protected GeometryViewModel()
+        protected GeometryViewModel() : base(null)
         {
             _positionX = 0;
             _positionY = 0;
@@ -34,11 +33,9 @@ namespace Bender.GUI.ViewModels
             _scaleZ = 0;
         }
 
-        protected GeometryViewModel(Geometry g, SceneViewModel glvm)
+        protected GeometryViewModel(Geometry g, SceneViewModel swm) : base(swm)
         {
             Geometry = g;
-
-            SceneViewModel = glvm;
 
             _positionX = g.PositionVector[0];
             _positionY = g.PositionVector[1];
@@ -106,8 +103,6 @@ namespace Bender.GUI.ViewModels
             get => (decimal) _scaleZ;
             set => UpdateGeometryAndSetProperty(VectorKind.Scale, Coordinate.Z, (float) value);
         }
-
-        public abstract UserControl CreateView(); 
 
         private void UpdateGeometryAndSetProperty(VectorKind k, Coordinate c, float value)
         {
