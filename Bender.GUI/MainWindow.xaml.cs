@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -16,6 +17,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using Bender.ClassLibrary;
 using Bender.ClassLibrary.Geometry;
 using Bender.ClassLibrary.ImplicitGeometry;
@@ -37,6 +39,7 @@ namespace Bender.GUI
     {
         private SceneViewModel _sceneViewModel;
         private GeometryMode _geometryMode = GeometryMode.Parametric;
+        private BackgroundWorker backgroundWorker;
 
         public MainWindow()
         {
@@ -72,6 +75,31 @@ namespace Bender.GUI
 
             GeometryListBox.DataContext = _sceneViewModel;
 
+            backgroundWorker = new BackgroundWorker();
+            backgroundWorker.DoWork += BackgroundWorker_DoWork;
+            backgroundWorker.RunWorkerCompleted += BackgroundWorker_RunWorkerCompleted;
+            backgroundWorker.WorkerSupportsCancellation = true;
+
+            var dispatcherTimer = new DispatcherTimer();
+            dispatcherTimer.Tick += DispatcherTimer_Tick;
+            dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 500);
+            dispatcherTimer.Start();
+        }
+
+        private void BackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            _sceneViewModel.DrawOnCanvas();
+        }
+
+        private void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            _sceneViewModel.Refresh();
+        }
+
+        private void DispatcherTimer_Tick(object sender, EventArgs e)
+        {
+            if (backgroundWorker.IsBusy) return;
+            backgroundWorker.RunWorkerAsync();
         }
 
         private void GeometryListBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -172,6 +200,7 @@ namespace Bender.GUI
         private void MenuItem_OnClick(object sender, RoutedEventArgs e)
         {
             _geometryMode = GeometryMode.Parametric;
+            _sceneViewModel.GeometryMode = GeometryMode.Parametric;
             GeometryListBox.SelectedIndex = 0;
             _sceneViewModel.Clear();
 
@@ -197,6 +226,7 @@ namespace Bender.GUI
         private void MenuItem2_OnClick(object sender, RoutedEventArgs e)
         {
             _geometryMode = GeometryMode.Implicit;
+            _sceneViewModel.GeometryMode = GeometryMode.Implicit;
             GeometryListBox.SelectedIndex = 0;
             _sceneViewModel.Clear();
 

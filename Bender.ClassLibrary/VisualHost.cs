@@ -47,13 +47,13 @@ namespace Bender.ClassLibrary
             _children.Add(drawingVisual);
         }
 
-        public void AddPoint(Point point, int step, Color color)
+        public void AddPoint(Point point, int stepX, int stepY, Color color)
         {
             DrawingVisual drawingVisual = new DrawingVisual();
 
             DrawingContext dc = drawingVisual.RenderOpen();
 
-            dc.DrawRectangle(new SolidColorBrush(color), null, new Rect(point, new Point(point.X + step, point.Y + step)));
+            dc.DrawRectangle(new SolidColorBrush(color), null, new Rect(point, new Point(point.X + stepX, point.Y + stepY)));
 
             dc.Close();
 

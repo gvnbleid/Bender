@@ -21,7 +21,6 @@ namespace Bender.GUI.ViewModels
                 //SetProperty(ref _alphaDensity, value);
                 _torus.AlphaDensity = value;
                 OnPropertyChanged(nameof(AlphaDensity));
-                SceneViewModel.Refresh();
             }
         }
 
@@ -33,7 +32,6 @@ namespace Bender.GUI.ViewModels
                 //SetProperty(ref _betaDensity, value);
                 _torus.BetaDensity = value;
                 OnPropertyChanged(nameof(BetaDensity));
-                SceneViewModel.Refresh();
             }
         }
 
