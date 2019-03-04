@@ -82,18 +82,25 @@ namespace Bender.GUI
 
             var dispatcherTimer = new DispatcherTimer();
             dispatcherTimer.Tick += DispatcherTimer_Tick;
-            dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 500);
+            dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 10);
             dispatcherTimer.Start();
         }
 
         private void BackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            _sceneViewModel.DrawOnCanvas();
+            if (_sceneViewModel.IsReadyToDraw)
+            {
+                _sceneViewModel.IsReadyToDraw = false;
+                _sceneViewModel.DrawOnCanvas();
+            }
         }
 
         private void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            _sceneViewModel.Refresh();
+            if(_sceneViewModel.IsReadyToDraw)
+            {
+                _sceneViewModel.Refresh();
+            }
         }
 
         private void DispatcherTimer_Tick(object sender, EventArgs e)
@@ -113,7 +120,8 @@ namespace Bender.GUI
 
         private void GeometryListBox_OnKeyDown(object sender, KeyEventArgs e)
         {
-            decimal transformSpeed = 0.01M;
+            backgroundWorker.CancelAsync();
+            decimal transformSpeed = 0.1M;
             decimal rotationSpeed = 1M;
             Views.Camera c = null;
             if (SelectedElemDockPanel.Children.Count > 0)
@@ -209,7 +217,7 @@ namespace Bender.GUI
                 new DenseVector(new[] {0f, 0f, 5f, 1f}),
                 new DenseVector(new[] {0f, 0f, 0f, 0f}),
                 0.1f,
-                10f,
+                100f,
                 60f,
                 (float) SceneCanvas.ActualWidth,
                 (float) SceneCanvas.ActualHeight
@@ -221,6 +229,8 @@ namespace Bender.GUI
                 1f,
                 3,
                 3));
+
+            _sceneViewModel.IsReadyToDraw = true;
         }
 
         private void MenuItem2_OnClick(object sender, RoutedEventArgs e)
@@ -235,7 +245,7 @@ namespace Bender.GUI
                 new DenseVector(new[] { 0f, 0f, 5f, 1f }),
                 new DenseVector(new[] { 0f, 0f, 0f, 0f }),
                 0.1f,
-                10f,
+                100f,
                 60f,
                 (float)SceneCanvas.ActualWidth,
                 (float)SceneCanvas.ActualHeight
@@ -248,7 +258,7 @@ namespace Bender.GUI
                 new DenseVector(new[] { 0f, 0f, 0f, 0f }),
                 1f, 1f, 1f));
 
-            
+            _sceneViewModel.IsReadyToDraw = true;
         }
 
         private void GeometryListBox_OnMouseRightButtonDown(object sender, MouseButtonEventArgs e)

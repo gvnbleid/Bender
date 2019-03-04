@@ -19,6 +19,7 @@ namespace Bender.GUI.ViewModels
             {
                 _ellipsoid.A = (float) value;
                 OnPropertyChanged(nameof(A));
+                _ellipsoid.NumberOfPoints = 2;
             }
         }
 
@@ -29,6 +30,7 @@ namespace Bender.GUI.ViewModels
             {
                 _ellipsoid.B = (float)value;
                 OnPropertyChanged(nameof(B));
+                _ellipsoid.NumberOfPoints = 2;
             }
         }
 
@@ -39,6 +41,7 @@ namespace Bender.GUI.ViewModels
             {
                 _ellipsoid.C = (float)value;
                 OnPropertyChanged(nameof(C));
+                _ellipsoid.NumberOfPoints = 2;
             }
         }
 

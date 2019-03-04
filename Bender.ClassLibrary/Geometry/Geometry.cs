@@ -18,6 +18,8 @@ namespace Bender.ClassLibrary.Geometry
 
         public string Name { get; set; }
 
+        protected VisualHost VisualHost;
+
         protected Geometry(string name, Vector<float> positionVector, Vector<float> rotationVector, Vector<float> scaleVector)
         {
             Name = name;
