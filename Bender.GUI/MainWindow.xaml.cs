@@ -91,7 +91,8 @@ namespace Bender.GUI
             if (_sceneViewModel.IsReadyToDraw)
             {
                 _sceneViewModel.IsReadyToDraw = false;
-                _sceneViewModel.DrawOnCanvas();
+                this.Dispatcher.Invoke((Action) (() => { _sceneViewModel.DrawOnCanvas(); }));
+
             }
         }
 

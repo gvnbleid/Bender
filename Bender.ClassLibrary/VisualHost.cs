@@ -60,6 +60,22 @@ namespace Bender.ClassLibrary
             _children.Add(drawingVisual);
         }
 
+        public void AddPoints(IEnumerable<(Point p, Color c)> points, int stepX, int stepY)
+        {
+            DrawingVisual drawingVisual = new DrawingVisual();
+
+            DrawingContext dc = drawingVisual.RenderOpen();
+
+            foreach (var (p, c) in points)
+            {
+                dc.DrawRectangle(new SolidColorBrush(c), null, new Rect(p, new Point(p.X + stepX, p.Y + stepY)));
+            }
+
+            dc.Close();
+
+            _children.Add(drawingVisual);
+        }
+
         protected override int VisualChildrenCount
         {
             get { return _children.Count; }
