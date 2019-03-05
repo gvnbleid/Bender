@@ -11,9 +11,11 @@ namespace Bender.ClassLibrary.Geometry
 {
     public abstract class ParametricGeometry : Geometry
     {
+
         private int[][] _lines;
         public ParametricGeometry(string name, Vector<float> positionVector, Vector<float> rotationVector, Vector<float> scaleVector) : base(name, positionVector, rotationVector, scaleVector)
         {
+
         }
 
         public override void Rasterize(Camera c)
@@ -21,12 +23,8 @@ namespace Bender.ClassLibrary.Geometry
             var vertices = c.WorldToCameraSpace(Vertices);
             vertices = c.CameraToProjectionSpace(vertices);
 
-            //VisualHost vH = new VisualHost(new Pen(Brushes.Beige, 1));
-            //vH.AddLines(c.LinesToBeDrawn(vertices, Edges));
-
             _lines = c.LinesToBeDrawn(vertices, Edges).ToArray();
 
-            //return vH;
         }
 
         public override VisualHost GetDataForDrawing()

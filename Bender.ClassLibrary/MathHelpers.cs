@@ -100,5 +100,12 @@ namespace Bender.ClassLibrary
 
             return true;
         }
+
+        public static float Between0And255(float f)
+        {
+            if (f < 0) return 0f;
+            if (f > 255) return 255;
+            return f;
+        }
     }
 }

@@ -92,14 +92,8 @@ namespace Bender.ClassLibrary.ImplicitGeometry
         public override void Rasterize(Camera c)
         {
             CanContinue = true;
-            Vector<float> versor = new DenseVector(new[] {1f, 1f, 1f, 1f});
-            var versorByCamera = c.ViewMatrix * versor;
-            float zCamera = versorByCamera[2];
-            var versorByCameraByProjection = c.ProjectionMatrix * versorByCamera;
 
             _pointsWithColors = new List<(Point p, Color c)>();
-
-            //VisualHost vh = new VisualHost(new Pen(Brushes.Yellow, 1f));
 
             PhongShader phongShader = c.Light;
 
@@ -116,6 +110,9 @@ namespace Bender.ClassLibrary.ImplicitGeometry
                 CanContinue = false;
             }
 
+            Matrix<float> m = (c.ProjectionMatrix * c.ViewMatrix).Inverse();
+            Matrix<float> dPrim = m.Transpose() * EquationMatrix * m;
+
             for (int i = (int) c.ScreenWidth/(2*NumberOfPoints); i < (int) c.ScreenWidth; i += iinc)
             {
                 for (int j = (int) c.ScreenHeight/(2*NumberOfPoints); j < (int) c.ScreenHeight; j += jinc)
@@ -123,8 +120,7 @@ namespace Bender.ClassLibrary.ImplicitGeometry
                     float screenX = (2 * i / c.ScreenWidth - 1);
                     float screenY = (2 * j / c.ScreenHeight - 1);
 
-                    Matrix<float> m = (c.ProjectionMatrix * c.ViewMatrix).Inverse();
-                    Matrix<float> dPrim = m.Transpose() * EquationMatrix * m;
+
 
                     Vector<float> vector = new DenseVector(4);
                     vector[0] = dPrim[2, 2];
@@ -135,40 +131,21 @@ namespace Bender.ClassLibrary.ImplicitGeometry
                                 screenY * (dPrim[1, 3] + dPrim[3, 1]) + dPrim[3, 3];
 
 
-                    Vector<float> screenVector = new DenseVector(new []{screenX, screenY, 1, 1});
-                    var v = c.ProjectionMatrix.Inverse() * screenVector;
-                    var vv = v * c.ViewMatrix;
-                    //float x = screenX * (float) Math.Tan(c.FieldOfView / 2);
-                    //float y = screenY * (float) Math.Tan(c.FieldOfView / 2);
-
-                    //Vector<float> cameraVector = new DenseVector(new[] {x, y, -1, 1});
-
                     if (MathHelpers.TrySolveEquation(vector[0], vector[1], vector[2], out (float first, float second) result))
                     {
-                        float z = result.first < result.second ? result.first : result.second;
-
-                        //v = v * z;
-                        //v = c.WorldMatrix * v;
-
-                        //if ((result.first < -1 || result.first > 1) && (result.second < -1 || result.second > 1))
-                        //    continue;
 
                         var v1 = m * (new DenseVector(new []{screenX, screenY, result.first, 1}));
                         var v2 = m * (new DenseVector(new[] { screenX, screenY, result.second, 1 }));
                         var vvv = (v1 - c.PositionVector).L2Norm() < (v2 - c.PositionVector).L2Norm() ? v1 : v2;
 
-                        _pointsWithColors.Add((new Point(i, j), phongShader.GetColor(c, vvv,
+                        _pointsWithColors.Add((new Point(i - _stepX / 2, j - _stepY / 2), phongShader.GetColor(c, vvv,
                             new DenseVector(new[]
                                 {2 * vvv[0] / (A * A), 2 * vvv[1] / (B * B), 2 * vvv[2] / (C * C), 0f}).Normalize(2),
-                            Colors.Yellow)));
-
-                        //_pointsWithColors.Add((new Point(i, j), Colors.Yellow));
-
-                        //vh.AddPoint(new Point(i, j), 2,
-                        //    phongShader.GetColor(c, v,
-                        //        new DenseVector(new[]
-                        //            {2 * v[0] / (A * A), 2 * v[1] / (B * B), 2 * v[2] / (C * C), 0f}).Normalize(2),
-                        //        Colors.Yellow));
+                            Colors.Yellow,
+                            Diffuse,
+                            Specular,
+                            Ambient,
+                            Shininess)));
                     }
                 }
             }

@@ -19,7 +19,6 @@ namespace Bender.GUI.ViewModels
             {
                 _ellipsoid.A = (float) value;
                 OnPropertyChanged(nameof(A));
-                _ellipsoid.NumberOfPoints = 2;
             }
         }
 
@@ -30,7 +29,6 @@ namespace Bender.GUI.ViewModels
             {
                 _ellipsoid.B = (float)value;
                 OnPropertyChanged(nameof(B));
-                _ellipsoid.NumberOfPoints = 2;
             }
         }
 
@@ -41,7 +39,46 @@ namespace Bender.GUI.ViewModels
             {
                 _ellipsoid.C = (float)value;
                 OnPropertyChanged(nameof(C));
-                _ellipsoid.NumberOfPoints = 2;
+            }
+        }
+
+        public decimal Diffuse
+        {
+            get => (decimal) _ellipsoid.Diffuse;
+            set
+            {
+                _ellipsoid.Diffuse = (float) value;
+                OnPropertyChanged(nameof(Diffuse));
+            }
+        }
+
+        public decimal Specular
+        {
+            get => (decimal)_ellipsoid.Specular;
+            set
+            {
+                _ellipsoid.Specular = (float)value;
+                OnPropertyChanged(nameof(Specular));
+            }
+        }
+
+        public decimal Ambient
+        {
+            get => (decimal)_ellipsoid.Ambient;
+            set
+            {
+                _ellipsoid.Ambient = (float)value;
+                OnPropertyChanged(nameof(Ambient));
+            }
+        }
+
+        public decimal Shininess
+        {
+            get => (decimal)_ellipsoid.Shininess;
+            set
+            {
+                _ellipsoid.Shininess = (float)value;
+                OnPropertyChanged(nameof(Shininess));
             }
         }
 
