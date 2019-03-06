@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using MathNet.Numerics.LinearAlgebra;
 using Vector = System.Windows.Vector;
 
@@ -71,8 +70,6 @@ namespace Bender.ClassLibrary.Geometry
             return Name;
         }
 
-        public abstract void Rasterize(Camera c);
-
-        public abstract VisualHost GetDataForDrawing();
+        public abstract VisualHost Rasterize(Camera c);
     }
 }

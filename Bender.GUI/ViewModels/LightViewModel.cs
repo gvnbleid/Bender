@@ -12,6 +12,10 @@ namespace Bender.GUI.ViewModels
 {
     public class LightViewModel : ViewModelBase
     {
+        private float _positionX;
+        private float _positionY;
+        private float _positionZ;
+
         private PhongShader _light;
 
         public decimal PositionX
@@ -19,8 +23,10 @@ namespace Bender.GUI.ViewModels
             get => (decimal) _light.PositionVector[0];
             set
             {
-                _light.PositionVector[0] = (float) value;
-                OnPropertyChanged(nameof(PositionX));
+                _positionX = (float) value;
+                SetProperty(ref _positionX, (float) value);
+                _light.PositionVector = new DenseVector(new []{_positionX, _positionY, _positionZ, 1f});
+                SceneViewModel.Refresh();
             }
         }
 
@@ -29,8 +35,10 @@ namespace Bender.GUI.ViewModels
             get => (decimal) _light.PositionVector[1];
             set
             {
-                _light.PositionVector[1] = (float) value;
-                OnPropertyChanged(nameof(PositionY));
+                _positionY = (float) value;
+                SetProperty(ref _positionY, (float) value);
+                _light.PositionVector = new DenseVector(new[] { _positionX, _positionY, _positionZ, 1f });
+                SceneViewModel.Refresh();
             }
         }
 
@@ -39,14 +47,20 @@ namespace Bender.GUI.ViewModels
             get => (decimal) _light.PositionVector[2];
             set
             {
-                _light.PositionVector[2] = (float) value;
-                OnPropertyChanged(nameof(PositionZ));
+                _positionZ = (float) value;
+                SetProperty(ref _positionZ, (float) value);
+                _light.PositionVector = new DenseVector(new[] { _positionX, _positionY, _positionZ, 1f });
+                SceneViewModel.Refresh();
             }
         }
 
         public LightViewModel(PhongShader l, SceneViewModel svm) : base(svm)
         {
             _light = l;
+
+            _positionX = l.PositionVector[0];
+            _positionY = l.PositionVector[1];
+            _positionZ = l.PositionVector[2];
         }
 
         public override UserControl CreateView()

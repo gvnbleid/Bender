@@ -25,7 +25,6 @@ namespace Bender.GUI.ViewModels
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-            //SceneViewModel.Refresh();
         }
 
         protected bool SetProperty<T>(ref T field, T newValue, [CallerMemberName] string propertyName = null)
@@ -34,7 +33,6 @@ namespace Bender.GUI.ViewModels
             {
                 field = newValue;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-                //SceneViewModel.Refresh();
                 return true;
             }
             return false;

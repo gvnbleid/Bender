@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using Bender.ClassLibrary;
@@ -31,10 +28,6 @@ namespace Bender.GUI.ViewModels
         private Vector<float> yRotation = new DenseVector(new[] { 0f, 0.1f * 20, 0f, 0f });
         private Vector<float> xRotation = new DenseVector(new[] { 0.1f * 20, 0f, 0f, 0f });
         private Vector<float> zRotation = new DenseVector(new[] { 0f, 0f, 0.1f * 20, 0f });
-
-        private List<VisualHost> visualHosts;
-
-        public GeometryMode GeometryMode { get; set; }
 
         internal SceneViewModel(Canvas c) : base(null)
         {
@@ -68,84 +61,22 @@ namespace Bender.GUI.ViewModels
             if(t == typeof(Camera)) return new CameraViewModel((Camera) GeometryList[index], this);
             if(t == typeof(Torus)) return new TorusViewModel((Torus) GeometryList[index], this);
             if (t == typeof(PhongShader)) return new LightViewModel((PhongShader) GeometryList[index], this);
-            if(t == typeof(Ellipsoid)) return new EllipsoidViewModel((Ellipsoid) GeometryList[index], this);
 
             throw new Exception("Geometry element is not properly handled in GeometryListViewModel");
         }
 
         internal void Refresh()
         {
-            //_canvas.Children.Clear();
-            visualHosts = new List<VisualHost>();
-            if (_camera == null) return;
+            _canvas.Children.Clear();
 
             _camera.Light = _light;
-            if (GeometryMode == GeometryMode.Parametric)
-            {
-                foreach (Geometry figure in _figures)
-                {
-                    figure.Rasterize(_camera);
-                    //visualHosts.Add(vh);
-                    //var a =_canvas.Dispatcher.InvokeAsync(() => { _canvas.Children.Add(vh); });
-                    //_canvas.Children.Add(vh);
-                    //VisualHost vh = null;
 
-                    //var scheduler = TaskScheduler.FromCurrentSynchronizationContext();
-                    //var t = new Task<VisualHost>(() => figure.Rasterize(_camera));
-                    ////t.ContinueWith(r => _canvas.Children.Add(r.Result), scheduler);
-                    //t.Start(scheduler);
-                    //_tasks.Add(t);
-
-                    //Task.Run(async () => await t.ContinueWith(r => _canvas.Children.Add(r.Result), scheduler));
-
-                    //Task<VisualHost>.Factory.StartNew(() => { return figure.Rasterize(_camera);}, Taskcre)
-
-                    //Application.Current.Dispatcher.Invoke(() => { _canvas.Children.Add(vh); });
-
-                }
-            }
-            else
-            {
-                foreach (ImplicitGeometry figure in _figures)
-                {
-                    //_canvas.Children.Clear();
-                        figure.Rasterize(_camera);
-                        //visualHosts.Add(vh);
-                        //_canvas.Children.Add(vh);
-                        //VisualHost vh = null;
-                        //var thread = new Thread(
-                        //    () => { vh = figure.Rasterize(_camera); });
-                        //thread.SetApartmentState(ApartmentState.STA);
-
-                        //thread.Start();
-                        //thread.Join();
-
-                        //var scheduler = TaskScheduler.FromCurrentSynchronizationContext();
-                        //var t = new Task<VisualHost>(() => figure.Rasterize(_camera));
-                        ////t.ContinueWith(r => _canvas.Children.Add(r.Result), scheduler);
-                        //t.Start(scheduler);
-                        //_tasks.Add(t);
-
-                        //Task.Run(async () => await t.ContinueWith(r => _canvas.Children.Add(r.Result), scheduler));
-
-                        //Task<VisualHost>.Factory.StartNew(() => { return figure.Rasterize(_camera);}, Taskcre)
-
-                        //Application.Current.Dispatcher.Invoke(() => { _canvas.Children.Add(vh); });
-                    
-                }
-            }
-            
-        }
-
-        internal void DrawOnCanvas()
-        {
-            _canvas.Children.Clear();
             foreach (Geometry figure in _figures)
             {
-                _canvas.Children.Add(figure.GetDataForDrawing());
+                VisualHost vh = figure.Rasterize(_camera);
+
+                _canvas.Children.Add(vh);
             }
-            
-            //visualHosts?.ForEach(v => _canvas.Children.Add(v));
         }
 
         internal void Clear()

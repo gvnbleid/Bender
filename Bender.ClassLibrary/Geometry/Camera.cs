@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Bender.ClassLibrary.Shaders;
 using MathNet.Numerics;
 using MathNet.Numerics.LinearAlgebra;
@@ -74,12 +73,7 @@ namespace Bender.ClassLibrary.Geometry
             ProjectionMatrix = CalculateProjectionMatrix(FieldOfView, Aspect, NearClippingPlane, FarClippingPlane);
         }
 
-        public override void Rasterize(Camera c)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override VisualHost GetDataForDrawing()
+        public override VisualHost Rasterize(Camera c)
         {
             throw new NotImplementedException();
         }

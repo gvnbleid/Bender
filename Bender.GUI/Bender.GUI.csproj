@@ -80,7 +80,6 @@
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="ViewModels\CameraViewModel.cs" />
     <Compile Include="Coordinate.cs" />
-    <Compile Include="ViewModels\EllipsoidViewModel.cs" />
     <Compile Include="ViewModels\LightViewModel.cs" />
     <Compile Include="ViewModels\SceneViewModel.cs" />
     <Compile Include="ViewModels\GeometryViewModel.cs" />
@@ -89,9 +88,6 @@
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\Camera.xaml.cs">
       <DependentUpon>Camera.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Ellipsoid.xaml.cs">
-      <DependentUpon>Ellipsoid.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Light.xaml.cs">
       <DependentUpon>Light.xaml</DependentUpon>
@@ -112,10 +108,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\Camera.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Ellipsoid.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

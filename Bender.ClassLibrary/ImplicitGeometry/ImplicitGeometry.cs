@@ -11,9 +11,6 @@ namespace Bender.ClassLibrary.ImplicitGeometry
     {
         public Matrix<float> EquationMatrix { get; protected set; }
 
-        public int NumberOfPoints { get; set; }
-        public bool CanContinue { get; set; }
-
         protected abstract bool TrySolveEquation(Vector<float> cameraVector, Vector<float> positionVector,
             out (float first, float second) valueTuple);
 

@@ -120,6 +120,8 @@ namespace Bender.GUI.ViewModels
             UpdateGeometry(k, v);
 
             SetProperty(c, k, value);
+
+            SceneViewModel.Refresh();
         }
 
         private void SetProperty(Coordinate c, VectorKind k, float value)
