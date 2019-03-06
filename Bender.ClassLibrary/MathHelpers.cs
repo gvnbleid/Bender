@@ -82,5 +82,14 @@ namespace Bender.ClassLibrary
 
             return true;
         }
+
+        public static Matrix<float> CalculateScaleMatrix(Vector<float> scaleVector)
+        {
+            Matrix<float> scaleMatrix = new DenseMatrix(4, 4);
+            scaleMatrix.SetDiagonal(scaleVector);
+            scaleMatrix[3, 3] = 1;
+
+            return scaleMatrix;
+        }
     }
 }

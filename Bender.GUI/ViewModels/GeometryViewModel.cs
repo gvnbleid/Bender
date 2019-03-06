@@ -6,7 +6,7 @@ using Geometry = Bender.ClassLibrary.Geometry;
 
 namespace Bender.GUI.ViewModels
 {
-    public abstract partial class GeometryViewModel : ViewModelBase
+    public abstract class GeometryViewModel : ViewModelBase
     {
         protected Geometry Geometry;
         protected SceneViewModel SceneViewModel;
@@ -204,6 +204,7 @@ namespace Bender.GUI.ViewModels
                     Geometry.Rotate(v);
                     break;
                 case VectorKind.Scale:
+                    Geometry.PreScale(v);
                     break;
                 case VectorKind.Transform:
                     Geometry.Transform(v);

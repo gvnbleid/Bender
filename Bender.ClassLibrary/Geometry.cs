@@ -1,4 +1,5 @@
 ﻿using MathNet.Numerics.LinearAlgebra;
+using MathNet.Numerics.LinearAlgebra.Single;
 
 namespace Bender.ClassLibrary
 {
@@ -40,21 +41,30 @@ namespace Bender.ClassLibrary
             RotationVector = rotationVector.Clone();
             ScaleVector = scaleVector.Clone();
 
-            WorldMatrix = MathHelpers.CalculateTranslationMatrix(PositionVector) * MathHelpers.CalculateRotationMatrix(RotationVector);
+            WorldMatrix = MathHelpers.CalculateTranslationMatrix(PositionVector) * MathHelpers.CalculateRotationMatrix(RotationVector) * MathHelpers.CalculateScaleMatrix(ScaleVector);
         }
 
-        public void Transform(Vector<float> transformVector)
+        public virtual void Transform(Vector<float> transformVector)
         {
             var m = MathHelpers.CalculateTranslationMatrix(transformVector);
             PositionVector += transformVector;
-            WorldMatrix *= m;
+            WorldMatrix  = m * WorldMatrix;
         }
 
-        public void Rotate(Vector<float> rotationVector)
+        public virtual void Rotate(Vector<float> rotationVector)
         {
             var m = MathHelpers.CalculateRotationMatrix(rotationVector);
             RotationVector += rotationVector;
-            WorldMatrix *= m;
+            WorldMatrix = m * WorldMatrix;
+        }
+
+        public virtual void PreScale(Vector<float> scaleVector)
+        {
+            Vector<float> newScaleVector = ScaleVector + scaleVector;
+            Vector<float> relativeScaleVector = new DenseVector(new[] {newScaleVector[0] / ScaleVector[0], newScaleVector[1] / ScaleVector[1], newScaleVector[2] / ScaleVector[2], 0f});
+            var m = MathHelpers.CalculateScaleMatrix(relativeScaleVector);
+            ScaleVector = newScaleVector;
+            WorldMatrix = m * WorldMatrix;
         }
     }
 }

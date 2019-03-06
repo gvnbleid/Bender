@@ -72,23 +72,25 @@ namespace Bender.ClassLibrary
             Matrix<float> rotationMatrix = MathHelpers.CalculateRotationMatrix(rotationVector);
             DirectionVector = rotationMatrix * new DenseVector(new[] { 0f, 0f, -1f, 0f });
 
-            //ViewMatrix = CalculateViewMatrix(positionVector, rotationMatrix);
             ViewMatrix = CalculateViewMatrix();
             ProjectionMatrix = CalculateProjectionMatrix(FieldOfView, Aspect, NearClippingPlane, FarClippingPlane);
         }
 
         public IEnumerable<LineGeometry> GeometryToRasterSpace(Geometry geometry)
         {
-            var vertices = WorldToCameraSpace(geometry.Vertices);
+            var vertices = ModelToWorld(geometry);
 
-            Serializer.WriteVerticesToFile("torusTransformedToCameraSpace.txt", vertices);
+            vertices = WorldToCameraSpace(vertices);
 
             vertices = CameraToProjectionSpace(vertices);
 
-            Serializer.WriteVerticesToFile("torusTransformedToProjectionSpaceBeforeDivide.txt", vertices);
-
             return LinesToBeDrawn(vertices, geometry.Edges);
 
+        }
+
+        private Vector<float>[] ModelToWorld(Geometry geometry)
+        {
+            return geometry.Vertices.Select(x => geometry.WorldMatrix * x).ToArray();
         }
 
         public IEnumerable<LineGeometry> LinesToBeDrawn(Vector<float>[] vertices, Edge[] topology)
@@ -161,6 +163,29 @@ namespace Bender.ClassLibrary
         public void UpdateProjectionMatrix(float fieldOfView, float aspect, float nearClippingPlane, float farClippingPlane)
         {
             ProjectionMatrix = CalculateProjectionMatrix(fieldOfView, aspect, nearClippingPlane, farClippingPlane);
+        }
+
+        public override void Transform(Vector<float> transformVector)
+        {
+            var m = MathHelpers.CalculateTranslationMatrix(transformVector);
+            PositionVector += transformVector;
+            WorldMatrix *= m;
+        }
+
+        public override void Rotate(Vector<float> rotationVector)
+        {
+            var m = MathHelpers.CalculateRotationMatrix(rotationVector);
+            RotationVector += rotationVector;
+            WorldMatrix *= m;
+        }
+
+        public override void PreScale(Vector<float> scaleVector)
+        {
+            Vector<float> newScaleVector = ScaleVector + scaleVector;
+            Vector<float> relativeScaleVector = new DenseVector(new[] { newScaleVector[0] / ScaleVector[0], newScaleVector[1] / ScaleVector[1], newScaleVector[2] / ScaleVector[2], 0f });
+            var m = MathHelpers.CalculateScaleMatrix(relativeScaleVector);
+            ScaleVector = newScaleVector;
+            WorldMatrix *= m;
         }
 
 

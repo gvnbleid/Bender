@@ -36,6 +36,34 @@ namespace Bender.GUI.ViewModels
             }
         }
 
+        public decimal SmallRadius
+        {
+            get => (decimal) _torus.SmallRadius;
+            set
+            {
+                if ((float) value < _torus.BigRadius)
+                {
+                    _torus.SmallRadius = (float) value;
+                    OnPropertyChanged(nameof(SmallRadius));
+                    SceneViewModel.Refresh();
+                }
+            }
+        }
+
+        public decimal BigRadius
+        {
+            get => (decimal)_torus.BigRadius;
+            set
+            {
+                if ((float)value > _torus.SmallRadius)
+                {
+                    _torus.BigRadius = (float)value;
+                    OnPropertyChanged(nameof(BigRadius));
+                    SceneViewModel.Refresh();
+                }
+            }
+        }
+
         public TorusViewModel(Torus t, SceneViewModel geometryListViewModel) : base(t, geometryListViewModel)
         {
             _torus = t;

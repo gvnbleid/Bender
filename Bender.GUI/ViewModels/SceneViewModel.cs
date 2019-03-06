@@ -20,12 +20,12 @@ namespace Bender.GUI.ViewModels
         private readonly Canvas _canvas;
         private Camera _camera;
 
-        private Vector<float> xVector = new DenseVector(new[] { 0.1f, 0f, 0f, 0f });
-        private Vector<float> yVector = new DenseVector(new[] { 0f, 0.1f, 0f, 0f });
-        private Vector<float> zVector = new DenseVector(new[] { 0f, 0f, 0.1f, 0f });
-        private Vector<float> yRotation = new DenseVector(new[] { 0f, 0.1f * 20, 0f, 0f });
-        private Vector<float> xRotation = new DenseVector(new[] { 0.1f * 20, 0f, 0f, 0f });
-        private Vector<float> zRotation = new DenseVector(new[] { 0f, 0f, 0.1f * 20, 0f });
+        private Vector<float> xVector = new DenseVector(new[] { 1f, 0f, 0f, 0f });
+        private Vector<float> yVector = new DenseVector(new[] { 0f, 1f, 0f, 0f });
+        private Vector<float> zVector = new DenseVector(new[] { 0f, 0f, 1f, 0f });
+        private Vector<float> yRotation = new DenseVector(new[] { 0f, 1f, 0f, 0f });
+        private Vector<float> xRotation = new DenseVector(new[] { 1f, 0f, 0f, 0f });
+        private Vector<float> zRotation = new DenseVector(new[] { 0f, 0f, 1f, 0f });
 
         internal SceneViewModel(Canvas c)
         {
@@ -74,7 +74,7 @@ namespace Bender.GUI.ViewModels
             }
         }
 
-        public void MoveScene(VectorKind k, Coordinate c, Direction d)
+        public void MoveScene(VectorKind k, Coordinate c, Direction d, float speed)
         {
             int i = d == Direction.Backward ? -1 : 1;
             switch (k)
@@ -83,13 +83,13 @@ namespace Bender.GUI.ViewModels
                     switch (c)
                     {
                         case Coordinate.X:
-                            _camera.Rotate(i * xRotation);
+                            _camera.Rotate(i * xRotation * speed);
                             break;
                         case Coordinate.Y:
-                            _camera.Rotate(i * yRotation);
+                            _camera.Rotate(i * yRotation * speed);
                             break;
                         case Coordinate.Z:
-                            _camera.Rotate(i * zRotation);
+                            _camera.Rotate(i * zRotation * speed);
                             break;
                     }
 
@@ -98,13 +98,13 @@ namespace Bender.GUI.ViewModels
                     switch (c)
                     {
                         case Coordinate.X:
-                            _camera.Transform(i * xVector);
+                            _camera.Transform(i * xVector * speed);
                             break;
                         case Coordinate.Y:
-                            _camera.Transform(i * yVector);
+                            _camera.Transform(i * yVector * speed);
                             break;
                         case Coordinate.Z:
-                            _camera.Transform(i * zVector);
+                            _camera.Transform(i * zVector * speed);
                             break;
                     }
 

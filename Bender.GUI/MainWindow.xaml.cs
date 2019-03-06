@@ -21,6 +21,7 @@ using Bender.GUI.ViewModels;
 using MathNet.Numerics;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Single;
+using MathNet.Numerics.LinearAlgebra.Storage;
 using Xceed.Wpf.Toolkit;
 using Geometry = System.Windows.Media.Geometry;
 using Vector = System.Windows.Vector;
@@ -73,7 +74,7 @@ namespace Bender.GUI
 
         private void GeometryListBox_OnKeyDown(object sender, KeyEventArgs e)
         {
-            decimal transformSpeed = 0.01M;
+            decimal transformSpeed = 0.1M;
             decimal rotationSpeed = 1M;
             Views.Camera c = null;
             if (SelectedElemDockPanel.Children.Count > 0)
@@ -84,12 +85,12 @@ namespace Bender.GUI
             {
                 if (Keyboard.IsKeyDown(Key.Space))
                 {
-                    if (c == null) _sceneViewModel.MoveScene(VectorKind.Rotate, Coordinate.Y, Direction.Forward);
+                    if (c == null) _sceneViewModel.MoveScene(VectorKind.Rotate, Coordinate.Y, Direction.Forward, (float) rotationSpeed);
                     else c.RotationYUpDown.Value += rotationSpeed;
                 }
                 else
                 { 
-                    if (c == null) _sceneViewModel.MoveScene(VectorKind.Transform, Coordinate.X, Direction.Backward);
+                    if (c == null) _sceneViewModel.MoveScene(VectorKind.Transform, Coordinate.X, Direction.Backward, (float) transformSpeed);
                     else c.PositionXUpDown.Value -= transformSpeed;
                 }
             }
@@ -98,12 +99,12 @@ namespace Bender.GUI
             {
                 if (Keyboard.IsKeyDown(Key.Space))
                 {
-                    if (c == null) _sceneViewModel.MoveScene(VectorKind.Rotate, Coordinate.Y, Direction.Backward);
+                    if (c == null) _sceneViewModel.MoveScene(VectorKind.Rotate, Coordinate.Y, Direction.Backward, (float)rotationSpeed);
                     else c.RotationYUpDown.Value -= rotationSpeed;
                 }
                 else
                 {
-                    if (c == null) _sceneViewModel.MoveScene(VectorKind.Transform, Coordinate.X, Direction.Forward);
+                    if (c == null) _sceneViewModel.MoveScene(VectorKind.Transform, Coordinate.X, Direction.Forward, (float)transformSpeed);
                     else c.PositionXUpDown.Value += transformSpeed;
                 }
             }
@@ -112,12 +113,12 @@ namespace Bender.GUI
             {
                 if (Keyboard.IsKeyDown(Key.Space))
                 {
-                    if (c == null) _sceneViewModel.MoveScene(VectorKind.Rotate, Coordinate.X, Direction.Backward);
+                    if (c == null) _sceneViewModel.MoveScene(VectorKind.Rotate, Coordinate.X, Direction.Backward, (float)rotationSpeed);
                     else c.RotationXUpDown.Value -= rotationSpeed;
                 }
                 else
                 {
-                    if (c == null) _sceneViewModel.MoveScene(VectorKind.Transform, Coordinate.Z, Direction.Backward);
+                    if (c == null) _sceneViewModel.MoveScene(VectorKind.Transform, Coordinate.Z, Direction.Backward, (float)transformSpeed);
                     else c.PositionZUpDown.Value -= transformSpeed;
                 }
 
@@ -127,12 +128,12 @@ namespace Bender.GUI
             {
                 if (Keyboard.IsKeyDown(Key.Space))
                 {
-                    if (c == null) _sceneViewModel.MoveScene(VectorKind.Rotate, Coordinate.X, Direction.Forward);
+                    if (c == null) _sceneViewModel.MoveScene(VectorKind.Rotate, Coordinate.X, Direction.Forward, (float)rotationSpeed);
                     else c.RotationXUpDown.Value += rotationSpeed;
                 }
                 else
                 {
-                    if (c == null) _sceneViewModel.MoveScene(VectorKind.Transform, Coordinate.Z, Direction.Forward);
+                    if (c == null) _sceneViewModel.MoveScene(VectorKind.Transform, Coordinate.Z, Direction.Forward, (float)transformSpeed);
                     else c.PositionZUpDown.Value += transformSpeed;
                 }
 
@@ -141,13 +142,13 @@ namespace Bender.GUI
 
             if (Keyboard.IsKeyDown(Key.Q))
             {
-                if (c == null) _sceneViewModel.MoveScene(VectorKind.Transform, Coordinate.Y, Direction.Forward);
+                if (c == null) _sceneViewModel.MoveScene(VectorKind.Transform, Coordinate.Y, Direction.Forward, (float)transformSpeed);
                 else c.PositionYUpDown.Value += transformSpeed;
             }
 
             if (Keyboard.IsKeyDown(Key.E))
             {
-                if (c == null) _sceneViewModel.MoveScene(VectorKind.Transform, Coordinate.Y, Direction.Backward);
+                if (c == null) _sceneViewModel.MoveScene(VectorKind.Transform, Coordinate.Y, Direction.Backward, (float)transformSpeed);
                 else c.PositionYUpDown.Value -= transformSpeed;
             }
         }

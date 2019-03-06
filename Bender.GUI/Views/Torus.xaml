@@ -9,21 +9,100 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Style="{StaticResource SettingsGrid}">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
             <RowDefinition Height="25"/>
             <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Text="Alpha density"/>
-        <TextBlock Grid.Row="1" Text="Beta density"/>
+        <TextBlock Grid.Column="0" Grid.Row="0" Text="Position"/>
+        <TextBlock Grid.Column="1" Grid.Row="0" Text="X"/>
+        <TextBlock Grid.Column="3" Grid.Row="0" Text="Y"/>
+        <TextBlock Grid.Column="5" Grid.Row="0" Text="Z"/>
+        <TextBlock Grid.Column="0" Grid.Row="1" Text="Rotation"/>
+        <TextBlock Grid.Column="1" Grid.Row="1" Text="X"/>
+        <TextBlock Grid.Column="3" Grid.Row="1" Text="Y"/>
+        <TextBlock Grid.Column="5" Grid.Row="1" Text="Z"/>
+        <TextBlock Grid.Column="0" Grid.Row="2" Text="Scale"/>
+        <TextBlock Grid.Column="1" Grid.Row="2" Text="X"/>
+        <TextBlock Grid.Column="3" Grid.Row="2" Text="Y"/>
+        <TextBlock Grid.Column="5" Grid.Row="2" Text="Z"/>
+
+        <xctk:DecimalUpDown x:Name="PositionXUpDown" 
+                            Grid.Column="2"
+                            Grid.Row="0"
+                            Increment="0.1"
+                            Value="{Binding PositionX}"/>
+
+        <xctk:DecimalUpDown Name="PositionYUpDown" 
+                            Grid.Column="4"
+                            Grid.Row="0"
+                            Increment="0.1"
+                            Value="{Binding PositionY}"/>
+
+        <xctk:DecimalUpDown Name="PositionZUpDown" 
+                            Grid.Column="6"
+                            Grid.Row="0"
+                            Increment="0.1"
+                            Value="{Binding PositionZ}"/>
+
+        <xctk:DecimalUpDown Name="RotationXUpDown" 
+                            Grid.Column="2" 
+                            Grid.Row="1" 
+                            Increment="1"
+                            Value="{Binding RotationX}"/>
+
+        <xctk:DecimalUpDown Name="RotationYUpDown" 
+                            Grid.Column="4" 
+                            Grid.Row="1" 
+                            Increment="1"
+                            Value="{Binding RotationY}"/>
+
+        <xctk:DecimalUpDown Name="RotationZUpDown" 
+                            Grid.Column="6" 
+                            Grid.Row="1" 
+                            Increment="1"
+                            Value="{Binding RotationZ}"/>
+
+        <xctk:DecimalUpDown Name="ScaleXUpDown" 
+                            Grid.Column="2" 
+                            Grid.Row="2" 
+                            Increment="0.1"
+                            Value="{Binding ScaleX}"/>
+
+        <xctk:DecimalUpDown Name="ScaleYUpDown" 
+                            Grid.Column="4" 
+                            Grid.Row="2" 
+                            Increment="0.1"
+                            Value="{Binding ScaleY}"/>
+
+        <xctk:DecimalUpDown Name="ScaleZUpDown" 
+                            Grid.Column="6" 
+                            Grid.Row="2" 
+                            Increment="0.1"
+                            Value="{Binding ScaleZ}"/>
+
+        <TextBlock Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" Text="Alpha density"/>
+        <TextBlock Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="2" Text="Beta density"/>
 
         <xctk:IntegerUpDown Name="AlphaDensIntUpDown" 
-                            Grid.Column="1" 
-                            Grid.Row="0" 
+                            Grid.Column="2" 
+                            Grid.Row="4" 
                             ClipValueToMinMax="True" 
                             Minimum="3" 
                             Maximum="360" 
@@ -31,12 +110,31 @@
                             Value="{Binding AlphaDensity}"/>
 
         <xctk:IntegerUpDown Name="BetaDensIntUpDown"
-                            Grid.Column="1"
-                            Grid.Row="1"
+                            Grid.Column="2"
+                            Grid.Row="5"
                             ClipValueToMinMax="True"
                             Minimum="3"
                             Maximum="360"
                             Increment="1"
                             Value="{Binding BetaDensity}"/>
+
+        <TextBlock Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="2" Text="Small radius"/>
+        <TextBlock Grid.Column="0" Grid.Row="7" Grid.ColumnSpan="2" Text="Big radius"/>
+
+        <xctk:DecimalUpDown Name="SmallRadiusDecUpDown" 
+                            Grid.Column="2" 
+                            Grid.Row="6" 
+                            ClipValueToMinMax="True" 
+                            Minimum="0" 
+                            Increment="0.1"
+                            Value="{Binding SmallRadius}"/>
+
+        <xctk:DecimalUpDown Name="BigRadiusDecUpDown"
+                            Grid.Column="2"
+                            Grid.Row="7"
+                            ClipValueToMinMax="True"
+                            Minimum="0"
+                            Increment="0.1"
+                            Value="{Binding BigRadius}"/>
     </Grid>
 </UserControl>

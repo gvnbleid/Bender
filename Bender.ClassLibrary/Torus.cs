@@ -13,10 +13,31 @@ namespace Bender.ClassLibrary
     {
         public Geometry Geometry { get; }
 
-        private float _bigRadius;
-        private float _smallRadius;
+        public float BigRadius
+        {
+            get => _bigRadius;
+            set
+            {
+                _bigRadius = value;
+                Generate();
+            }
+        }
+
+        public float SmallRadius
+        {
+            get => _smallRadius;
+            set
+            {
+                _smallRadius = value;
+                Generate();
+            }
+        }
+
         private int _alphaDensity;
         private int _betaDensity;
+        private float _bigRadius;
+        private float _smallRadius;
+
         public int AlphaDensity
         {
             get => _alphaDensity;
@@ -78,9 +99,9 @@ namespace Bender.ClassLibrary
                     double trigAlpha = Trig.DegreeToRadian(alpha);
                     double trigBeta = Trig.DegreeToRadian(beta);
 
-                    float x = (float)Math.Cos(trigAlpha) * (_bigRadius + _smallRadius * (float)Math.Cos(trigBeta));
-                    float z = (float)Math.Sin(trigAlpha) * (_bigRadius + _smallRadius * (float)Math.Cos(trigBeta));
-                    float y = (float)Math.Sin(trigBeta) * _smallRadius;
+                    float x = (float)Math.Cos(trigAlpha) * (BigRadius + SmallRadius * (float)Math.Cos(trigBeta));
+                    float z = (float)Math.Sin(trigAlpha) * (BigRadius + SmallRadius * (float)Math.Cos(trigBeta));
+                    float y = (float)Math.Sin(trigBeta) * SmallRadius;
 
                     vertices.Add(new DenseVector(new[] { x, y, z, 1f }));
 
