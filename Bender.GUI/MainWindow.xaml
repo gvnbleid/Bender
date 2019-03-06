@@ -28,14 +28,9 @@
                 <MenuItem Header="Save"/>
                 <MenuItem Header="Close"/>
             </MenuItem>
-
-            <MenuItem Header="Mode">
-                <MenuItem Header="Parametric" Click="MenuItem_OnClick"/>
-                <MenuItem Header="Implicit" Click="MenuItem2_OnClick"/>
-            </MenuItem>
         </Menu>
 
-        <Canvas Name="SceneCanvas" Grid.Row="1" Grid.RowSpan="2" Grid.Column="0" Background="Black" KeyDown="GeometryListBox_OnKeyDown" Focusable="True" MouseEnter="SceneCanvas_OnMouseEnter"/>
+        <Canvas Name="SceneCanvas" Grid.Row="1" Grid.RowSpan="3" Grid.Column="0" Background="Black" KeyDown="GeometryListBox_OnKeyDown" Focusable="True" MouseEnter="SceneCanvas_OnMouseEnter"/>
 
         <ListBox Grid.Column="1" 
                  Grid.Row="1" 
@@ -43,16 +38,7 @@
                  Margin="2"
                  Background="LightGray" 
                  SelectionChanged="GeometryListBox_OnSelectionChanged"
-                 ItemsSource="{Binding GeometryList}"
-                 MouseRightButtonDown="GeometryListBox_OnMouseRightButtonDown">
-
-            <ListBox.ContextMenu>
-                <ContextMenu>
-                    <MenuItem Name="TorusMenuItem" Header="Add torus"/>
-                    <MenuItem Name="EllipsoidMenuItem" Header="Add ellipsoid"/>
-                </ContextMenu>
-            </ListBox.ContextMenu>
-        </ListBox>
+                 ItemsSource="{Binding GeometryList}"/>
 
         <DockPanel Name="SelectedElemDockPanel"
                    Grid.Column="1"

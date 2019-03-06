@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 
-namespace Bender.ClassLibrary
+namespace Bender.GUI
 {
     public class VisualHost : FrameworkElement
     {
@@ -41,19 +44,6 @@ namespace Bender.ClassLibrary
                 dc.DrawLine(_color, new Point(line[0], line[1]),
                     new Point(line[2], line[3]));
             }
-
-            dc.Close();
-
-            _children.Add(drawingVisual);
-        }
-
-        public void AddPoint(Point point, int step, Color color)
-        {
-            DrawingVisual drawingVisual = new DrawingVisual();
-
-            DrawingContext dc = drawingVisual.RenderOpen();
-
-            dc.DrawRectangle(new SolidColorBrush(color), null, new Rect(point, new Point(point.X + step, point.Y + step)));
 
             dc.Close();
 

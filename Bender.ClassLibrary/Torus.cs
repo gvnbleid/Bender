@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
+using System.Text;
+using System.Threading.Tasks;
 using MathNet.Numerics;
 using MathNet.Numerics.LinearAlgebra.Single;
 
-namespace Bender.ClassLibrary.Geometry
+namespace Bender.ClassLibrary
 {
-    public class Torus : ParametricGeometry
+    public class Torus : Geometry
     {
         public Geometry Geometry { get; }
 
@@ -33,11 +37,11 @@ namespace Bender.ClassLibrary.Geometry
         }
 
         public Torus(string name, float bigRadius, float smallRadius, int alphaDensity, int betaDensity) : base(
-            name, new DenseVector(new[] { 0f, 0f, 0f, 0f }),
-            new DenseVector(new[] { 0f, 0f, 0f, 0f }), new DenseVector(new[] { 1f, 1f, 1f, 0f }))
+            name, new DenseVector(new[] {0f, 0f, 0f, 0f}),
+            new DenseVector(new[] {0f, 0f, 0f, 0f}), new DenseVector(new[] {1f, 1f, 1f, 0f}))
         {
-            if (bigRadius < 0.0f || smallRadius < 0.0f || bigRadius <= smallRadius || alphaDensity < 3 ||
-                alphaDensity > 360 || betaDensity < 3 || betaDensity > 360)
+            if (bigRadius < 0.0f || smallRadius < 0.0f || bigRadius <= smallRadius || alphaDensity <= 0 ||
+                alphaDensity > 360 || betaDensity < 4 || betaDensity > 360)
             {
                 throw new Exception("Wrong arguments");
             }

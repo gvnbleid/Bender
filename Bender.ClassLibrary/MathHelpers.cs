@@ -82,23 +82,5 @@ namespace Bender.ClassLibrary
 
             return true;
         }
-
-        public static bool TrySolveEquation(float a, float b, float c, out (float first, float second) result)
-        {
-            result = (0f, 0f);
-
-            float delta = b * b - 4 * a * c;
-
-            if (delta < 0) return false;
-
-            float sqrtDelta = (float) Math.Sqrt(delta);
-
-            float first = (-b - sqrtDelta) * 0.5f / a;
-            float second = (-b + sqrtDelta) * 0.5f / a;
-
-            result = (first, second);
-
-            return true;
-        }
     }
 }

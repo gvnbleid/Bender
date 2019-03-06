@@ -5,20 +5,17 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Controls;
 using Bender.GUI.Annotations;
 
 namespace Bender.GUI.ViewModels
 {
     public abstract class ViewModelBase : INotifyPropertyChanged
     {
-        protected SceneViewModel SceneViewModel;
-
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected ViewModelBase(SceneViewModel swm)
+        protected ViewModelBase()
         {
-            SceneViewModel = swm;
+
         }
 
         [NotifyPropertyChangedInvocator]
@@ -37,7 +34,5 @@ namespace Bender.GUI.ViewModels
             }
             return false;
         }
-
-        public abstract UserControl CreateView();
     }
 }
