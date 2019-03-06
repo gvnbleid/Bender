@@ -27,31 +27,19 @@ namespace Bender.GUI.ViewModels
         public decimal NearClippingPlane
         {
             get => (decimal) _nearClippingPlane;
-            set
-            {
-                _nearClippingPlane = (float) value;
-                SceneViewModel.ResetImplicitGeometry();
-            }
+            set => _nearClippingPlane = (float) value;
         }
 
         public decimal FarClippingPlane
         {
             get => (decimal) _farClippingPlane;
-            set
-            {
-                _farClippingPlane = (float)value;
-                SceneViewModel.ResetImplicitGeometry();
-            }
+            set => _farClippingPlane = (float) value;
         }
 
         public decimal FieldOfView
         {
             get => (decimal) _fieldOfView;
-            set
-            {
-                _fieldOfView = (float)value;
-                SceneViewModel.ResetImplicitGeometry();
-            }
+            set => _fieldOfView = (float) value;
         }
 
         public override UserControl CreateView()

@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using Bender.ClassLibrary;
 using Bender.ClassLibrary.Geometry;
 using Bender.ClassLibrary.ImplicitGeometry;
@@ -19,8 +18,6 @@ namespace Bender.GUI.ViewModels
 {
     public class SceneViewModel : ViewModelBase
     {
-
-        public bool IsReadyToDraw { get; set; }
         public ObservableCollection<IPositionable> GeometryList { get; }
 
         private readonly List<Geometry> _figures;
@@ -28,7 +25,7 @@ namespace Bender.GUI.ViewModels
         private Camera _camera;
         private PhongShader _light;
 
-        private Vector<float> xVector = new DenseVector(new[] {0.1f, 0f, 0f, 0f});
+        private Vector<float> xVector = new DenseVector(new[] { 0.1f, 0f, 0f, 0f });
         private Vector<float> yVector = new DenseVector(new[] { 0f, 0.1f, 0f, 0f });
         private Vector<float> zVector = new DenseVector(new[] { 0f, 0f, 0.1f, 0f });
         private Vector<float> yRotation = new DenseVector(new[] { 0f, 0.1f * 20, 0f, 0f });
@@ -36,8 +33,6 @@ namespace Bender.GUI.ViewModels
         private Vector<float> zRotation = new DenseVector(new[] { 0f, 0f, 0.1f * 20, 0f });
 
         private List<VisualHost> visualHosts;
-
-        private WriteableBitmap _writeableBitmap;
 
         public GeometryMode GeometryMode { get; set; }
 
@@ -148,9 +143,6 @@ namespace Bender.GUI.ViewModels
             foreach (Geometry figure in _figures)
             {
                 _canvas.Children.Add(figure.GetDataForDrawing());
-                if (figure is ImplicitGeometry geometry && geometry.NumberOfPoints <
-                    Math.Max(_canvas.ActualWidth, _canvas.ActualHeight))
-                    IsReadyToDraw = true;
             }
             
             //visualHosts?.ForEach(v => _canvas.Children.Add(v));
@@ -198,22 +190,13 @@ namespace Bender.GUI.ViewModels
 
                     break;
             }
-            ResetImplicitGeometry();
+
             Refresh();
         }
 
         public override UserControl CreateView()
         {
             throw new NotImplementedException();
-        }
-
-        public void ResetImplicitGeometry()
-        {
-            _figures.ForEach(f =>
-            {
-                if (f is ImplicitGeometry geometry) geometry.NumberOfPoints = 2;
-                IsReadyToDraw = true;
-            });
         }
     }
 }
