@@ -105,8 +105,8 @@ namespace Bender.ClassLibrary.ImplicitGeometry
 
             if (phongShader == null) return;
 
-            int iinc = Math.Max((int) c.ScreenWidth / NumberOfPoints, 1);
-            int jinc = Math.Max((int) c.ScreenHeight / NumberOfPoints, 1);
+            int iinc = Math.Max((int) c.ScreenWidth / 100, 1);
+            int jinc = Math.Max((int) c.ScreenHeight / 100, 1);
 
             _stepX = iinc;
             _stepY = jinc;
@@ -179,7 +179,7 @@ namespace Bender.ClassLibrary.ImplicitGeometry
         public override VisualHost GetDataForDrawing()
         {
             VisualHost vh = new VisualHost(new Pen(Brushes.Yellow, 0.1));
-            vh.AddPoints(_pointsWithColors, _stepX, _stepY);
+            _pointsWithColors.ForEach(p => vh.AddPoint(p.p, _stepX, _stepY, p.c));
 
             return vh;
         }
