@@ -9,11 +9,6 @@ namespace Bender.ClassLibrary.ImplicitGeometry
 {
     public abstract class ImplicitGeometry : Geometry.Geometry
     {
-        public float Specular { get; set; }
-        public float Diffuse { get; set; }
-        public float Ambient { get; set; }
-        public float Shininess { get; set; }
-
         public Matrix<float> EquationMatrix { get; protected set; }
 
         public int NumberOfPoints { get; set; }
@@ -24,10 +19,6 @@ namespace Bender.ClassLibrary.ImplicitGeometry
 
         protected ImplicitGeometry(string name, Vector<float> positionVector, Vector<float> rotationVector, Vector<float> scaleVector) : base(name, positionVector, rotationVector, scaleVector)
         {
-            Specular = 1;
-            Diffuse = 1;
-            Ambient = 1;
-            Shininess = 1;
         }
     }
 }

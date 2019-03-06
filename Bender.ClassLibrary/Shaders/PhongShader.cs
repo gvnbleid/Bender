@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using System.Windows.Media;
 using Bender.ClassLibrary.Geometry;
 using MathNet.Numerics.LinearAlgebra;
-using MathNet.Numerics.LinearAlgebra.Single;
 
 namespace Bender.ClassLibrary.Shaders
 {
@@ -27,36 +26,15 @@ namespace Bender.ClassLibrary.Shaders
             SpecularColor = specularColor;
         }
 
-        public Color GetColor(Camera c, Vector<float> vertexPosition, Vector<float> normalVector, Color diffuseColor, float diffuse, float specular, float ambient, float shininess)
+        public Color GetColor(Camera c, Vector<float> vertexPosition, Vector<float> normalVector, Color diffuseColor)
         {
             Vector<float> lightVector = (PositionVector - vertexPosition).Normalize(2);
             Vector<float> viewerVector = (c.PositionVector - vertexPosition).Normalize(2);
-            float lightByNormal = lightVector.DotProduct(normalVector);
-            Vector<float> reflectionVector = (2 * lightByNormal * normalVector - lightVector).Normalize(2);
+            Vector<float> reflectionVector = 2 * (lightVector.DotProduct(normalVector)) * normalVector - lightVector;
 
-            Vector<float> ambientVector = new DenseVector(new float[]{AmbientColor.R + 30, AmbientColor.G + 30, AmbientColor.B + 30});
-            Vector<float> diffuseVector = new DenseVector(new float[] { diffuseColor.R, diffuseColor.G, diffuseColor.B });
-            Vector<float> specularVector = new DenseVector(new float[] { SpecularColor.R, SpecularColor.G, SpecularColor.B });
-
-            Vector<float> diffusePart = diffuseVector * lightVector.DotProduct(normalVector);
-            diffusePart = new DenseVector(diffusePart.Select(MathHelpers.Between0And255).ToArray());
-
-            var refdot = reflectionVector.DotProduct(viewerVector);
-            //Vector<float> specularPart =  specularVector * (float)Math.Pow(reflectionVector.DotProduct(viewerVector), shininess);
-            //specularPart = new DenseVector(specularPart.Select(MathHelpers.Between0And255).ToArray());
-
-            Vector<float> color = ambient * ambientVector + diffuse * diffusePart;
-
-            if (refdot > 0)
-            {
-                Vector<float> specularPart = specularVector * (float)Math.Pow(reflectionVector.DotProduct(viewerVector), shininess);
-                specularPart = new DenseVector(specularPart.Select(MathHelpers.Between0And255).ToArray());
-
-                color += specularPart * specular;
-            }
-            color = new DenseVector(color.Select(MathHelpers.Between0And255).ToArray());
-
-            return Color.FromRgb((byte) color[0], (byte) color[1], (byte) color[2]);
+            Color color = AmbientColor + diffuseColor * lightVector.DotProduct(normalVector) +
+                                SpecularColor * (float) Math.Pow(reflectionVector.DotProduct(viewerVector), 5);
+            return color;
         }
 
         public override string ToString()
