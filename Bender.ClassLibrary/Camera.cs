@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using MathNet.Numerics;
@@ -76,7 +77,7 @@ namespace Bender.ClassLibrary
             ProjectionMatrix = CalculateProjectionMatrix(FieldOfView, Aspect, NearClippingPlane, FarClippingPlane);
         }
 
-        public IEnumerable<int[]> GeometryToRasterSpace(Geometry geometry)
+        public IEnumerable<LineGeometry> GeometryToRasterSpace(Geometry geometry)
         {
             var vertices = WorldToCameraSpace(geometry.Vertices);
 
@@ -90,7 +91,7 @@ namespace Bender.ClassLibrary
 
         }
 
-        public IEnumerable<int[]> LinesToBeDrawn(Vector<float>[] vertices, Edge[] topology)
+        public IEnumerable<LineGeometry> LinesToBeDrawn(Vector<float>[] vertices, Edge[] topology)
         {
             List<int[]> lines = new List<int[]>();
             foreach (Edge edge in topology)
@@ -103,13 +104,8 @@ namespace Bender.ClassLibrary
                     int endX = (int)((line[2] + 1) * 0.5 * ScreenWidth);
                     int endY = (int)((line[3] + 1) * 0.5 * ScreenHeight);
 
-                    yield return new[] { beginningX, beginningY, endX, endY };
+                    yield return new LineGeometry(new Point(beginningX, beginningY), new Point(endX, endY));
                 }
-
-                if (!MathHelpers.PointInFrustum(vertices[edge.Beginning]) && !MathHelpers.PointInFrustum(vertices[edge.End])) continue;
-
-                Vector<float> beginning = vertices[edge.Beginning];
-                Vector<float> end = vertices[edge.End];
 
             }
         }

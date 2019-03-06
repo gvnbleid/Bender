@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Shapes;
 using Bender.ClassLibrary;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Single;
@@ -60,11 +62,15 @@ namespace Bender.GUI.ViewModels
             foreach (Geometry figure in _figures)
             {
                 var lines = _camera.GeometryToRasterSpace(figure);
+                PathGeometry pathGeometry = new PathGeometry();
+                foreach (var line in lines)
+                {
+                    pathGeometry.AddGeometry(line);
+                }
 
-                VisualHost vH = new VisualHost(new Pen(Brushes.Beige, 1));
-                vH.AddLines(lines);
-
-                _canvas.Children.Add(vH);
+                Path p = new Path() { Stroke = Brushes.Beige, StrokeThickness = 1 };
+                p.Data = pathGeometry;
+                _canvas.Children.Add(p);
             }
         }
 
