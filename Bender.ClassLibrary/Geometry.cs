@@ -58,7 +58,7 @@ namespace Bender.ClassLibrary
             WorldMatrix = m * WorldMatrix;
         }
 
-        public virtual void PreScale(Vector<float> scaleVector)
+        public virtual void Scale(Vector<float> scaleVector)
         {
             Vector<float> newScaleVector = ScaleVector + scaleVector;
             Vector<float> relativeScaleVector = new DenseVector(new[] {newScaleVector[0] / ScaleVector[0], newScaleVector[1] / ScaleVector[1], newScaleVector[2] / ScaleVector[2], 0f});

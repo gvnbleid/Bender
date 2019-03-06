@@ -12,6 +12,7 @@ using MathNet.Numerics;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Single;
 using MathNet.Numerics.LinearAlgebra.Storage;
+using Bender.ClassLibrary.CameraObjects;
 using Vector = System.Windows.Vector;
 
 namespace Bender.ClassLibrary
@@ -25,7 +26,6 @@ namespace Bender.ClassLibrary
             private set => _viewMatrix = value;
         }
 
-        public Matrix<float> ProjectionMatrix { get; private set; }
         public Vector<float> DirectionVector { get; private set; }
         public float NearClippingPlane { get; private set; }
         public float FarClippingPlane { get; private set; }
@@ -34,33 +34,27 @@ namespace Bender.ClassLibrary
         public float ScreenWidth { get; private set; }
         public float ScreenHeight { get; private set; }
 
-        public Camera(string name, Vector<float> positionVector, Vector<float> rotationVector, float nearClippingPlane,
-            float farClippingPlane, float fieldOfView, float screenWidth, float screenHeight) :
+        private IProjection Projection { get; set; }
+
+        public Camera(string name, Vector<float> positionVector, Vector<float> rotationVector, IProjection projection) :
             base(name, positionVector, rotationVector, new DenseVector(new[] {1f, 1f, 1f, 0f}))
         {
             ScaleVector = new DenseVector(new[] {1f, 1f, 1f, 0f});
 
-            Update(positionVector, rotationVector, nearClippingPlane, farClippingPlane, fieldOfView, screenWidth,
-                screenHeight, name);
+            Update(positionVector, rotationVector, projection, name);
         }
 
-        public void Update(Vector<float> positionVector, Vector<float> rotationVector, float nearClippingPlane,
-            float farClippingPlane, float fieldOfView, float screenWidth, float screenHeight, string name = null)
+        public void Update(Vector<float> positionVector, Vector<float> rotationVector, IProjection projection, string name = null)
         {
             PositionVector = positionVector.Clone();
             RotationVector = rotationVector.Clone();
 
             Matrix<float> rotationMatrix = MathHelpers.CalculateRotationMatrix(rotationVector);
             DirectionVector = rotationMatrix * new DenseVector(new[] { 0f, 0f, -1f, 0f });
-            NearClippingPlane = nearClippingPlane;
-            FarClippingPlane = farClippingPlane;
-            FieldOfView = fieldOfView;
-            Aspect = screenWidth / screenHeight;
-            ScreenHeight = screenHeight;
-            ScreenWidth = screenWidth;
+
+            Projection = projection;
 
             ViewMatrix = CalculateViewMatrix(positionVector, rotationMatrix);
-            ProjectionMatrix = CalculateProjectionMatrix(fieldOfView, Aspect, nearClippingPlane, farClippingPlane);
 
             if (name != null) Name = name;
         }
@@ -73,22 +67,19 @@ namespace Bender.ClassLibrary
             DirectionVector = rotationMatrix * new DenseVector(new[] { 0f, 0f, -1f, 0f });
 
             ViewMatrix = CalculateViewMatrix();
-            ProjectionMatrix = CalculateProjectionMatrix(FieldOfView, Aspect, NearClippingPlane, FarClippingPlane);
         }
 
-        public IEnumerable<LineGeometry> GeometryToRasterSpace(Geometry geometry)
+        public virtual IEnumerable<LineGeometry> GeometryToRasterSpace(Geometry geometry)
         {
             var vertices = ModelToWorld(geometry);
 
             vertices = WorldToCameraSpace(vertices);
 
-            vertices = CameraToProjectionSpace(vertices);
-
-            return LinesToBeDrawn(vertices, geometry.Edges);
+            return Projection.Project(vertices, geometry.Edges);
 
         }
 
-        private Vector<float>[] ModelToWorld(Geometry geometry)
+        protected Vector<float>[] ModelToWorld(Geometry geometry)
         {
             return geometry.Vertices.Select(x => geometry.WorldMatrix * x).ToArray();
         }
@@ -112,15 +103,9 @@ namespace Bender.ClassLibrary
             }
         }
 
-        public Vector<float>[] WorldToCameraSpace(Vector<float>[] vertices)
+        protected Vector<float>[] WorldToCameraSpace(Vector<float>[] vertices)
         {
             return vertices.Select(x => ViewMatrix * x).ToArray();
-        }
-
-        public Vector<float>[] CameraToProjectionSpace(Vector<float>[] vertices)
-        {  
-            var v = vertices.Select(x => ProjectionMatrix * x).ToArray();
-            return v.Select(x => x.Divide(Math.Abs(x[3]))).ToArray();
         }
 
         private Matrix<float> CalculateViewMatrix(Vector<float> positionVector, Matrix<float> rotationMatrix)
@@ -160,11 +145,6 @@ namespace Bender.ClassLibrary
             return projectionMatrix;
         }
 
-        public void UpdateProjectionMatrix(float fieldOfView, float aspect, float nearClippingPlane, float farClippingPlane)
-        {
-            ProjectionMatrix = CalculateProjectionMatrix(fieldOfView, aspect, nearClippingPlane, farClippingPlane);
-        }
-
         public override void Transform(Vector<float> transformVector)
         {
             var m = MathHelpers.CalculateTranslationMatrix(transformVector);
@@ -179,7 +159,7 @@ namespace Bender.ClassLibrary
             WorldMatrix *= m;
         }
 
-        public override void PreScale(Vector<float> scaleVector)
+        public override void Scale(Vector<float> scaleVector)
         {
             Vector<float> newScaleVector = ScaleVector + scaleVector;
             Vector<float> relativeScaleVector = new DenseVector(new[] { newScaleVector[0] / ScaleVector[0], newScaleVector[1] / ScaleVector[1], newScaleVector[2] / ScaleVector[2], 0f });

@@ -204,7 +204,7 @@ namespace Bender.GUI.ViewModels
                     Geometry.Rotate(v);
                     break;
                 case VectorKind.Scale:
-                    Geometry.PreScale(v);
+                    Geometry.Scale(v);
                     break;
                 case VectorKind.Transform:
                     Geometry.Transform(v);

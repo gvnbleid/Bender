@@ -13,8 +13,7 @@ namespace Bender.GUI.ViewModels
         private float _nearClippingPlane;
         private float _farClippingPlane;
         private float _fieldOfView;
-        private float _canvasWidth;
-        private float _canvasHeight;
+        private float 
 
         private Camera _camera;
 

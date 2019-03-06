@@ -17,6 +17,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Bender.ClassLibrary;
+using Bender.ClassLibrary.CameraObjects;
 using Bender.GUI.ViewModels;
 using MathNet.Numerics;
 using MathNet.Numerics.LinearAlgebra;
@@ -46,15 +47,13 @@ namespace Bender.GUI
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
             Torus torus = new Torus("torus", 2f, 0.5f, 4, 4);
+            PerspectiveProjection pp = new PerspectiveProjection(0.1f, 10f, 60f, (float)SceneCanvas.ActualWidth, (float)SceneCanvas.ActualHeight);
+            StereoscopicProjection sp = new StereoscopicProjection((float)SceneCanvas.ActualWidth, (float)SceneCanvas.ActualHeight, 20f, 20f);
             Camera camera = new Camera(
                 "camera",
                 new DenseVector(new[] { 0f, 0f, 5f, 1f }),
                 new DenseVector(new[] { 0f, 0f, 0f, 0f }),
-                0.1f,
-                10f,
-                60f,
-                (float)SceneCanvas.ActualWidth,
-                (float)SceneCanvas.ActualHeight
+                sp
                 );
 
             _sceneViewModel = new SceneViewModel(SceneCanvas);
